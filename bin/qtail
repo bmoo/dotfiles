@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run --rm --net=otas_default nsqio/nsq nsq_tail --nsqd-tcp-address=nsqd:4150 --topic=$1

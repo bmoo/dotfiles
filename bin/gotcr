@@ -1,0 +1,19 @@
+#!/bin/sh
+
+body() {
+  clear
+  date
+  go test ./... && { git add -A '**/*.go' && git commit -m 'Add stable wip'; } || git checkout -- ":(top,exclude)**/*_test.go"
+}
+
+watch() {
+  fswatch \
+    --one-per-batch \
+    --latency 0.1 \
+    --recursive \
+    --exclude '.*' \
+    --include '\.go$' \
+    .
+}
+
+body; watch | while read event; do body; done

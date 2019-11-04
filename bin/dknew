@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SERVICE=$1
+
+docker-compose build ${SERVICE} && \
+	docker-compose kill ${SERVICE} && \
+	docker-compose rm -f ${SERVICE} && \
+	docker-compose up -d ${SERVICE}

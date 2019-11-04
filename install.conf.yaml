@@ -1,0 +1,14 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ''
+    ~/Brewfile: Brewfile
+    ~/.zsh.after: zsh.after
+    ~/bin: bin
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
