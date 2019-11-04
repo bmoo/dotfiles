@@ -9,6 +9,7 @@
     ~/Brewfile: Brewfile
     ~/.zsh.after: zsh.after
     ~/bin: bin
+    ~/.gitconfig: gitconfig
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
