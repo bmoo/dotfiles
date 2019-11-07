@@ -1,5 +1,8 @@
 
-tap 'caskroom/cask'
+tap 'homebrew/cask'
+tap 'golangci/tap'
+tap 'rs/tap'
+cask_args appdir: "/Applications"
 
 # Core Homebrew
 brew 'autoconf'
@@ -111,4 +114,13 @@ cask 'java'
 cask 'sloth'
 cask 'vagrant'
 cask 'virtualbox'
+cask 'goland'
 
+# Mac App Store
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Keynote", id: 409183694
+mas "Microsoft Outlook", id: 985367838
+mas "1Blocker", id: 1107421413
+mas "EyeFriendly", id: 587769990
+mas "CARROT Weather", id: 993487541
