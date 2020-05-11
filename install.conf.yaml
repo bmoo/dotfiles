@@ -5,7 +5,6 @@
 - clean: ['~']
 
 - link:
-    ~/.dotfiles: ''
     ~/Brewfile: Brewfile
     ~/.zsh.after: zsh.after
     ~/bin: bin
