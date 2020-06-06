@@ -9,7 +9,9 @@
     ~/.zsh.after: zsh.after
     ~/bin: bin
     ~/.gitconfig: gitconfig
-    ~/.config/nvim/init.vim: init.vim
+    ~/.config/nvim/init.vim:
+      create: true
+      path: init.vim
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
