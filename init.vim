@@ -90,14 +90,9 @@ autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit'
 autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
-" make tab show as four spaces
+" Tab settings
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
-
-" gometalinter
-" let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-" let g:go_metalinter_autosave = 1
-" let g:go_metalinter_deadline = "5s"
-
+autocmd BufNewFile,BufRead *.js setlocal expandtab tabstop=2 shiftwidth=2
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
