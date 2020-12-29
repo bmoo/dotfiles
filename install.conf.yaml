@@ -13,6 +13,7 @@
       create: true
       path: init.vim
     ~/.tmux.conf: .tmux.conf
+    ~/.gitattributes: .gitattributes
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

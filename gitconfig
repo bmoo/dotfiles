@@ -46,7 +46,7 @@
   last = diff HEAD^                 # diff last committed change
 
   # log
-  l = log --graph -n 20 --date=short
+  l = log --graph -n 40 --date=short
   changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
   simple = log --pretty=format:\" * %s\"
@@ -112,6 +112,7 @@
   autocrlf = false
   editor = nvim
   excludesfile = ~/.yadr/git/gitignore
+	attributesfile = /Users/bradmoore/.gitattributes
 [advice]
   statusHints = false
 [diff]
@@ -127,4 +128,10 @@
   path = .gitconfig.user
 [user]
 	name = Brad Moore
-	email = brad@bradmoore.org
+	email = brad.moore@arcules.com
+
+[url "git@gitlab.com:"]
+        insteadOf = https://gitlab.com/
+
+[pull]
+	rebase = false
