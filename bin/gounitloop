@@ -3,7 +3,7 @@
 body() {
   clear
   date
-  go test -short ./...
+  go test -short -parallel 4 ./...
 }
 
 watch() {
