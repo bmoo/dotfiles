@@ -1,11 +1,15 @@
 alias dk=docker-compose
 alias k=kubectl
-alias dlogin='$(aws-vault exec --no-session verve -- aws ecr get-login --no-include-email --region us-west-2)'
-alias couchshell='docker run --rm -ti --net=otas_default couchbase/server:4.6.3 /opt/couchbase/bin/cbq -u vagrant -p vagrant -engine=http://couchbase:8091/'
-alias pg='PGPASSWORD=secret docker run -it --rm --network otas_default postgres psql -h postgres -U postgres'
-alias nsqlog='nsqlogfunc() { docker run --rm --net=otas_default nsqio/nsq nsq_tail --nsqd-tcp-address=nsqd:4150 --topic=$1 }; nsqlogfunc'
-alias geti='getifunc() { ssh puppet-east ./get-instance.sh $1 }; getifunc'
-alias gotest='go test -count=1 -short ./...'
 alias gitfilehist='gitlogfunc() { git log --format=%H -- $1 | head -n1}; gitlogfunc'
-alias lint='golangci-lint run'
 
+# go
+alias t='go test -short ./...'
+alias lint='/usr/local/bin/golangci-lint run --new-from-rev=origin/develop'
+alias depgraph="go mod graph | modv | dot -T png | open -f -a /System/Applications/Preview.app"
+alias outdated="go list -u -m -json all | go-mod-outdated"
+alias cover='coverfunc() { t="/tmp/go-cover.$$.tmp"; go test -coverprofile=$t ./...; go tool cover -html=$t ; unlink $t }; coverfunc'
+
+# kubernetes
+alias kpod='kpodfunc() { kubectl get pods | grep $1 | head -n 1 | cut -f 1 -d " " }; kpodfunc'
+alias kforward='kforwardfunc() { kubectl port-forward $(kpod $1) 8080:80 }; kforwardfunc'
+alias klogs='klogsfunc() { kubectl logs -f $(kpod $1) }; klogsfunc'
