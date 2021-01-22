@@ -46,7 +46,7 @@
   last = diff HEAD^                 # diff last committed change
 
   # log
-  l = log --graph -n 40 --date=short
+  l = log --graph -n 40 --date=human
   changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
   simple = log --pretty=format:\" * %s\"
@@ -63,7 +63,10 @@
   rs = rebase --skip                # skip rebase
 
   # remote
-  r = remote -v                     # show remotes (verbose)
+  rt = remote -v                     # show remotes (verbose)
+
+  # restore
+  r = restore
 
   # reset
   unstage = reset HEAD              # remove files from index (tracking)
@@ -81,6 +84,9 @@
   s = status                        # status
   st = status                       # status
   stat = status                     # status
+
+  # switch
+  sw = switch
 
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message
@@ -107,7 +113,7 @@
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
-  default = upstream
+  default = current
 [core]
   autocrlf = false
   editor = nvim
