@@ -36,10 +36,11 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
+"
 " fatih vim-go color scheme
-" let g:rehash256 = 1
-" let g:molokai_original = 1
-" colorscheme molokai
+let g:rehash256 = 1
+let g:molokai_original = 1
+colorscheme molokai
 
 " ayu color theme
 " set termguicolors
@@ -68,10 +69,11 @@ nnoremap gc :GoCallers<CR>
 " vim-go settings
 let mapleader = ","
 set autowrite
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <leader>b <Plug>(go-build)
+autocmd FileType go nmap <leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader>t <Plug>(go-test)
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
 
 " use go-imports to format
 let g:go_fmt_command = "goimports"
