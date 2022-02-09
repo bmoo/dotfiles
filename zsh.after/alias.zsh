@@ -1,5 +1,7 @@
-alias dk=docker-compose
+alias dk='docker compose'
 alias k=kubectl
+alias kc='kcfunc() { k get deployment "$1" -o "jsonpath={ .spec.template.spec.containers[0].image } " | l }; kcfunc'
+
 alias gitfilehist='gitlogfunc() { git log --format=%H -- $1 | head -n1}; gitlogfunc'
 
 # go

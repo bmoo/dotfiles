@@ -1,1 +1,2 @@
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
+export PATH="/usr/local/opt/openjdk@8/bin:$PATH"
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)

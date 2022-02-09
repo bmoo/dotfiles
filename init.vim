@@ -1,21 +1,39 @@
 call plug#begin()
-Plug 'avakhov/vim-yaml'
-Plug 'fatih/molokai'
-Plug 'fatih/vim-go'
-Plug 'scrooloose/nerdtree'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'machakann/vim-highlightedyank'
-Plug 'ayu-theme/ayu-vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sonph/onehalf'
+Plug 'avakhov/vim-yaml' " autoindent yaml files
+Plug 'fatih/vim-go' " go dev
+Plug 'scrooloose/nerdtree' " file browser
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " code completion
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'} " more code completion
+Plug 'ctrlpvim/ctrlp.vim' " quick search
+Plug 'tpope/vim-fugitive' " git
+Plug 'machakann/vim-highlightedyank' " highlight code to be yanked
+Plug 'Mofiqul/vscode.nvim' " vscode theme
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
-map <C-\> :NERDTreeToggle<CR>
+" basic stuff
+set termguicolors
 set number
 set mouse=a
+
+" ctrlp remap
+let g:ctrlp_map = '<c-f>'
+let g:ctrlp_cmd = 'CtrlP'
+
+" vs-code color scheme
+" For dark theme
+" let g:vscode_style = "dark"
+" For light theme
+let g:vscode_style = "light"
+" Enable transparent background.
+let g:vscode_transparency = 1
+" Enable italic comment
+let g:vscode_italic_comment = 1
+colorscheme vscode
+
+
+map <C-\> :NERDTreeToggle<CR>
 
 " highlight substitutions
 set inccommand=nosplit
@@ -31,25 +49,6 @@ endfunction
 
 nnoremap gb :call <SID>ToggleBlame()<CR>
 
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
-"
-" fatih vim-go color scheme
-let g:rehash256 = 1
-let g:molokai_original = 1
-colorscheme molokai
-
-" ayu color theme
-" set termguicolors
-" let ayucolor="light"
-let g:airline_theme='onehalflight'
-set background=light
-colorscheme PaperColor
-
- 
 " vim-go auto type information
 "let g:go_auto_type_info = 1
 "set updatetime=100
@@ -69,6 +68,8 @@ nnoremap gc :GoCallers<CR>
 " vim-go settings
 let mapleader = ","
 set autowrite
+" Use new vim 8.2 popup windows for Go Doc
+let g:go_doc_popup_window = 1
 autocmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader>r <Plug>(go-run)
 autocmd FileType go nmap <leader>t <Plug>(go-test)
@@ -85,12 +86,32 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
+let g:go_highlight_diagnostic_warnings = 1
+let g:go_highlight_diagnostic_errors = 1
+let g:go_diagnostics_level = 2
 
 " vim-go alternates
 autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
 autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
 autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+
+" Go debugging
+let g:go_debug_windows = {
+      \ 'vars':       'rightbelow 50vnew',
+      \ 'stack':      'rightbelow 10new',
+      \ }
+      " \ 'goroutines':      'rightbelow 10new',
+let g:go_debug_mappings = {
+      \ '(go-debug-continue)': {'key': 'c', 'arguments': '<nowait>'},
+      \ '(go-debug-next)': {'key': 'n', 'arguments': '<nowait>'},
+      \ '(go-debug-step)': {'key': 's'},
+      \ '(go-debug-print)': {'key': 'p'},
+  \}
+map <leader>ds :GoDebugStart<cr>
+map <leader>dt :GoDebugTestFunc<cr>
+map <leader>dd :GoDebugStop<cr>
+map <leader>db :GoDebugBreakpoint<cr>
 
 " Tab settings
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
