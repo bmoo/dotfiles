@@ -10,12 +10,24 @@ Plug 'machakann/vim-highlightedyank' " highlight code to be yanked
 Plug 'Mofiqul/vscode.nvim' " vscode theme
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" react
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+
+Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
 call plug#end()
 
 " basic stuff
 set termguicolors
 set number
 set mouse=a
+
+" Prettier plugin
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " ctrlp remap
 let g:ctrlp_map = '<c-f>'
