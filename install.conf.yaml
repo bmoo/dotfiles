@@ -12,7 +12,7 @@
     ~/.config/nvim/init.vim:
       create: true
       path: init.vim
-    ~/.tmux.conf: .tmux.conf
+    ~/.tmux.conf: tmux.conf
     ~/.gitattributes: .gitattributes
 
 - shell:
