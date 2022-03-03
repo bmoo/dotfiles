@@ -12,6 +12,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'christoomey/vim-tmux-navigator' " enable tmux keybinds while using vim
 
 " react
 Plug 'pangloss/vim-javascript'
@@ -47,7 +48,7 @@ let g:vscode_italic_comment = 1
 colorscheme vscode
 
 
-map <C-\> :NERDTreeToggle<CR>
+map <leader>f :NERDTreeToggle<CR>
 
 " highlight substitutions
 set inccommand=nosplit
