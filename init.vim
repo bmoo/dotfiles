@@ -48,6 +48,7 @@ let g:vscode_italic_comment = 1
 colorscheme vscode
 
 
+let mapleader = ","
 map <leader>f :NERDTreeToggle<CR>
 
 " highlight substitutions
@@ -81,7 +82,6 @@ let g:go_list_type = "quickfix" " only use quickfixes
 nnoremap gc :GoCallers<CR>
 
 " vim-go settings
-let mapleader = ","
 set autowrite
 " Use new vim 8.2 popup windows for Go Doc
 let g:go_doc_popup_window = 1
