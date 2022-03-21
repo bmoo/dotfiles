@@ -134,3 +134,4 @@ autocmd BufNewFile,BufRead *.js setlocal expandtab tabstop=2 shiftwidth=2
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
