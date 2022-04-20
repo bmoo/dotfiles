@@ -63,7 +63,7 @@ function! s:ToggleBlame()
     endif
 endfunction
 
-nnoremap gb :call <SID>ToggleBlame()<CR>
+nnoremap gb :Git blame<CR>
 
 " vim-go auto type information
 "let g:go_auto_type_info = 1
@@ -80,6 +80,7 @@ let g:go_list_type = "quickfix" " only use quickfixes
 
 " go callers
 nnoremap gc :GoCallers<CR>
+nnoremap gr :GoReferrers<CR>
 
 " vim-go settings
 set autowrite
