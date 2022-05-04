@@ -13,6 +13,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator' " enable tmux keybinds while using vim
+Plug 'jeffkreeftmeijer/vim-dim'
 
 " react
 Plug 'pangloss/vim-javascript'
@@ -45,7 +46,7 @@ let g:vscode_style = "light"
 let g:vscode_transparency = 1
 " Enable italic comment
 let g:vscode_italic_comment = 1
-colorscheme vscode
+colorscheme dim
 
 
 let mapleader = ","
@@ -90,6 +91,8 @@ autocmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader>r <Plug>(go-run)
 autocmd FileType go nmap <leader>t <Plug>(go-test)
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+let g:go_metalinter_command = 'golangci-lint run --new-from-rev=origin/develop'
 autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
 
 " use go-imports to format
