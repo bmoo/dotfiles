@@ -1,0 +1,253 @@
+#!/bin/sh
+
+SELF=${0##*/}
+CONTAINER="postgis/postgis"
+
+
+
+die() {
+    log "$@"
+    exit 1
+}
+
+log() {
+    printf "$SELF %s: %s\n" "$(date +%T)" "$@" >&2
+}
+
+usage() {
+    cat <<EOF
+usage: $SELF <command> [<args>]
+
+Commands:
+
+restore a backup
+   restore            Restore the latest dev backup
+   restore env=live   Restore the latest backup for the live environment
+   restore <path>     Restore a specific backup
+
+create a backup
+   backup             Back up the dev env's database
+
+EOF
+}
+
+requireCommand() {
+    command -v $1 >/dev/null 2>&1 || die "'$1' is required, but not found"
+}
+
+dieIfNonZeroStatus() {
+    estatus=$1 # some shells reserve $status
+    if [ $estatus -ne 0 ]; then
+        log "$*"
+        exit $estatus
+    fi
+}
+
+conntest() {
+  select1=$(docker run \
+      --rm \
+      --network="container:${docker_container}" \
+      -v $HOME/.pgpass:/root/.pgpass \
+      --env PGCONNECT_TIMEOUT=1 \
+      $CONTAINER \
+      psql \
+        --username="$pg_username" \
+        --host="$pg_host" \
+        --port=$pg_port \
+        --tuples-only \
+        --no-align \
+        --command="SELECT 1 FROM pg_database WHERE datname='$pg_dbname';" $pg_dbname)
+  if [ '1' = "$select1" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+waitUntilReady() {
+  text="waiting.."
+  while true; do
+    conntest 2>/dev/null
+    if [ $? -eq 0 ]; then
+      printf '\n'
+      break
+    else
+      printf "$text"
+      text="."
+      sleep 1
+    fi
+  done
+}
+
+backup() {
+	pg_dump \
+            --create \
+            --format=custom \
+            --exclude-table-data=fnord_table \
+            --exclude-schema=fnord_schema \
+	    --schema="insights_12" \
+            --dbname="${pg_dbname:?'pg_dbname unset'}" \
+            --username="${pg_username:?'pg_username unset'}" \
+            --host="${pg_host:?'pg_host unset'}" \
+            --port="${pg_port:?'pg_port unset'}" \
+        | pv > "${backup_path:?'backup_path unset'}"
+    dieIfNonZeroStatus $? 'pg_dump error'
+}
+
+restore() {
+    docker run \
+        --rm \
+        --network="${docker_network:?'docker network unset'}" \
+        -v $PWD:/app \
+        -v $HOME/.pgpass:/root/.pgpass \
+        $CONTAINER \
+        pg_restore \
+            --verbose \
+            --no-owner \
+	    -C \
+            --no-acl \
+            --exclude-schema=fnord_schema \
+            --dbname="${pg_dbname:?'pg_dbname unset'}" \
+            --username="${pg_username:?'pg_username unset'}" \
+            --host="${pg_host:?'pg_host unset'}" \
+            --port="${pg_port:?'pg_port unset'}" \
+            "/app/${backup_path:?'backup_path unset'}"
+    dieIfNonZeroStatus $? 'pg_restore error'
+}
+
+runcmd() {
+    docker run \
+        --rm \
+        --network="${docker_network:?'docker network unset'}" \
+        -v $PWD:/app \
+        -v $HOME/.pgpass:/root/.pgpass \
+        $CONTAINER \
+        psql \
+            --dbname="${pg_dbname:?'pg_dbname unset'}" \
+            --username="${pg_username:?'pg_username unset'}" \
+            --host="${pg_host:?'pg_host unset'}" \
+            --port="${pg_port:?'pg_port unset'}" \
+            --file -
+}
+
+requireCommand docker
+requireCommand pv
+
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        restore)
+
+            shift
+
+            case "$1" in
+                ""|env=dev|env=d|e=dev|e=d)
+                    shift
+                    ENV=dev
+                    ;;
+                env=stage|env=stg|env=s|e=stage|e=stg|e=s)
+                    shift
+                    ENV=stg
+                    ;;
+                env=live|env=l|e=live|e=l)
+                    shift
+                    ENV=live
+                    ;;
+                env=*|e=*)
+                    usage
+                    die "unrecognized argument: $1"
+                    ;;
+            esac
+
+            pg_port='5432'
+            pg_host='postgres-test'
+	    pg_dbname='fnord'
+	    pg_username='user'
+            docker_container='postgres-test'
+            docker_network='pgtest-network'
+
+            if [ -n "$1" ]; then
+                backup_path="$1"
+                shift
+            else
+                backup_path=$(find . -type f -depth 1 -name "${pg_dbname}-${ENV}-*.dump" | sort | tail -1)
+                [ -n "$backup_path" ] || die "no backups found for $ENV env"
+            fi
+
+            [ -r "$backup_path" ] || die "can't read backup file: $backup_path"
+
+            log "will restore $backup_path"
+
+            docker rm -f "$docker_container"
+            docker network create ${docker_network:?'docker network unset'}
+            docker run -d -p 5555:${pg_port} \
+                   -v $HOME/.pgpass:/root/.pgpass \
+	           -e POSTGRES_PASSWORD=password \
+		   -e POSTGRES_USER=${pg_username} \
+		   -e POSTGRES_DB=${pg_dbname} \
+                   --network="${docker_network:?'docker network unset'}" \
+	           --name ${docker_container} $CONTAINER
+
+            waitUntilReady
+
+	    echo "--- Creating schema"
+	    echo "CREATE SCHEMA insights_12;" | runcmd
+
+	    echo "--- Restoring DB"
+            restore
+
+            echo "GRANT ALL PRIVILEGES ON DATABASE ${pg_dbname} TO ${pg_username}; GRANT ALL PRIVILEGES ON SCHEMA insights_12 to ${pg_username}; GRANT ALL PRIVILEGES ON SCHEMA public to ${pg_username};" | runcmd
+            dieIfNonZeroStatus $? 'error granting privileges'
+            exit
+            ;;
+
+        backup)
+
+            shift
+
+            case "$1" in
+                ""|env=dev|env=d|e=dev|e=d)
+                    shift
+                    pg_host='localhost'
+                    pg_port='6003'
+                    pg_dbname='dev-perm-mlrawdata'
+                    pg_username='arcules'
+                    ENV=dev
+                    ;;
+                env=stage|env=stg|env=s|e=stage|e=stg|e=s)
+                    shift
+                    pg_host='stg-fnord-db.example.com'
+                    pg_port='5432'
+                    pg_dbname='stgfnorddb'
+                    pg_username='stgfnorddb'
+                    ENV=stg
+                    ;;
+                env=live|env=l|e=live|e=l)
+                    shift
+                    pg_host='live-fnord-db.example.com'
+                    pg_port='5432'
+                    pg_dbname='fnorddb'
+                    pg_username='fnorddb'
+                    ENV=live
+                    ;;
+                env=*|e=*)
+                    usage
+                    die "unrecognized env argument: $1"
+                    ;;
+            esac
+
+            backup_path="fnord-${ENV}-$(date +%Y%m%d_%H%M%S).dump"
+
+            log "backing up to: $backup_path"
+            backup
+            exit $?
+            ;;
+
+        *)
+            usage
+            die "unrecognized argument: $1"
+            ;;
+    esac
+done
+
+usage
