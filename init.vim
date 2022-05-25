@@ -13,7 +13,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator' " enable tmux keybinds while using vim
-Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'lifepillar/vim-wwdc16-theme'
+" Plug 'jeffkreeftmeijer/vim-dim'
 
 " react
 Plug 'pangloss/vim-javascript'
@@ -37,6 +38,8 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 let g:ctrlp_map = '<c-f>'
 let g:ctrlp_cmd = 'CtrlP'
 
+" colorscheme wwdc16
+colorscheme vscode
 " vs-code color scheme
 " For dark theme
 " let g:vscode_style = "dark"
@@ -46,7 +49,7 @@ let g:vscode_style = "light"
 let g:vscode_transparency = 1
 " Enable italic comment
 let g:vscode_italic_comment = 1
-colorscheme dim
+" colorscheme dim
 
 
 let mapleader = ","
