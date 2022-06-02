@@ -9,7 +9,7 @@ brew 'autoconf'
 brew 'automake'
 brew 'awscli'
 brew 'boost'
-brew 'boost-python'
+brew 'boost-python3'
 brew 'cairo'
 brew 'cmake'
 brew 'cscope'
@@ -48,7 +48,7 @@ brew 'jplot'
 brew 'jq'
 brew 'kompose'
 brew 'kubernetes-cli'
-brew 'kubernetes-helm'
+brew 'helm'
 brew 'libcerf'
 brew 'libevent'
 brew 'libffi'
@@ -63,7 +63,6 @@ brew 'libvterm'
 brew 'libxml2'
 brew 'libyaml'
 brew 'lua'
-brew 'luajit'
 brew 'lzo'
 brew 'make'
 brew 'mas'
@@ -86,8 +85,7 @@ brew 'postgresql'
 brew 'protobuf'
 brew 'pstree'
 brew 'pv'
-brew 'python'
-brew 'python@2'
+brew 'python@3'
 brew 'qt'
 brew 'readline'
 brew 'reattach-to-user-namespace'
@@ -112,17 +110,13 @@ brew 'zsh'
 
 # Cask Apps
 cask 'aws-vault'
-cask 'java'
 cask 'sloth'
 cask 'vagrant'
-cask 'virtualbox'
 cask 'goland'
 
 # Mac App Store
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Keynote", id: 409183694
-mas "Microsoft Outlook", id: 985367838
-mas "1Blocker", id: 1107421413
 mas "EyeFriendly", id: 587769990
 mas "CARROT Weather", id: 993487541
