@@ -14,7 +14,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator' " enable tmux keybinds while using vim
 Plug 'lifepillar/vim-wwdc16-theme'
-" Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'ayu-theme/ayu-vim' " or other package manager
+Plug 'rmagatti/auto-session'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " react
 Plug 'pangloss/vim-javascript'
@@ -25,10 +27,19 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'for': ['javascript', 'typ
 
 call plug#end()
 
+set termguicolors     " enable true colors support
+let ayucolor="light"  " for light version of theme
+" let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
+
 " basic stuff
-set termguicolors
+
 set number
 set mouse=a
+
+" NERDTree
+let NERDTreeShowHidden=1
 
 " Prettier plugin
 let g:prettier#autoformat = 0
@@ -39,16 +50,16 @@ let g:ctrlp_map = '<c-f>'
 let g:ctrlp_cmd = 'CtrlP'
 
 " colorscheme wwdc16
-colorscheme vscode
+" colorscheme vscode
 " vs-code color scheme
 " For dark theme
 " let g:vscode_style = "dark"
 " For light theme
-let g:vscode_style = "light"
+" let g:vscode_style = "light"
 " Enable transparent background.
-let g:vscode_transparency = 1
+" let g:vscode_transparency = 1
 " Enable italic comment
-let g:vscode_italic_comment = 1
+" let g:vscode_italic_comment = 1
 " colorscheme dim
 
 
@@ -142,3 +153,6 @@ autocmd BufNewFile,BufRead *.js setlocal expandtab tabstop=2 shiftwidth=2
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
+
+" import lua config
+lua require('init')

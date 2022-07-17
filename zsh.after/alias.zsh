@@ -15,3 +15,10 @@ alias cover='coverfunc() { t="/tmp/go-cover.$$.tmp"; go test -coverprofile=$t ./
 alias kpod='kpodfunc() { kubectl get pods | grep $1 | head -n 1 | cut -f 1 -d " " }; kpodfunc'
 alias kforward='kforwardfunc() { kubectl port-forward $(kpod $1) 8080:80 }; kforwardfunc'
 alias klogs='klogsfunc() { kubectl logs -f $(kpod $1) }; klogsfunc'
+alias up2date='brew update && brew upgrade'
+
+# docker
+alias dsh='dshfunc() { docker run --rm -ti $1 sh }; dshfunc'
+
+alias ci=circleci
+alias lg=lazygit
