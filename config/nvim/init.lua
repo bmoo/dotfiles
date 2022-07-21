@@ -51,11 +51,6 @@ require("nvim-tree").setup({
     },
 })
 
--- python
-require'lspconfig'.pyright.setup{
-    on_attach=custom_attach,
-}
-
 -- dark mode
 local auto_dark_mode = require('auto-dark-mode')
 
@@ -72,26 +67,42 @@ auto_dark_mode.setup({
 })
 auto_dark_mode.init()
 
--- lsp
-local custom_attach = function(client)
-	print("LSP started.");
-	require'completion'.on_attach(client)
-	require'diagnostic'.on_attach(client)
+-- python
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
-	map('n','gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
-	map('n','gd','<cmd>lua vim.lsp.buf.definition()<CR>')
-	map('n','K','<cmd>lua vim.lsp.buf.hover()<CR>')
-	map('n','gr','<cmd>lua vim.lsp.buf.references()<CR>')
-	map('n','gs','<cmd>lua vim.lsp.buf.signature_help()<CR>')
-	map('n','gi','<cmd>lua vim.lsp.buf.implementation()<CR>')
-	map('n','gt','<cmd>lua vim.lsp.buf.type_definition()<CR>')
-	map('n','<leader>gw','<cmd>lua vim.lsp.buf.document_symbol()<CR>')
-	map('n','<leader>gW','<cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
-	map('n','<leader>ah','<cmd>lua vim.lsp.buf.hover()<CR>')
-	map('n','<leader>af','<cmd>lua vim.lsp.buf.code_action()<CR>')
-	map('n','<leader>ee','<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>')
-	map('n','<leader>ar','<cmd>lua vim.lsp.buf.rename()<CR>')
-	map('n','<leader>=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-	map('n','<leader>ai','<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
-	map('n','<leader>ao','<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
+
+require('lspconfig')['pyright'].setup{
+    on_attach = on_attach,
+}
+require('lspconfig')['tsserver'].setup{
+    on_attach = on_attach,
+}
