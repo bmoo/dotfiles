@@ -20,10 +20,17 @@ require('ayu').colorscheme()
 -- file browser
 require("nvim-tree").setup()
 
+-- lua line
+require('lualine').setup({
+    options = { 
+        theme = 'ayu',
+        globalstatus = true,
+    },
+})
+
 -- nvim-tree config
 vim.keymap.set('n', '<leader>f', ':NvimTreeToggle<CR>')
 require("nvim-tree").setup({
-    highlight_focused_file = true,
     sync_root_with_cwd = true,
     sort_by = "case_sensitive",
     view = {
@@ -48,6 +55,22 @@ require("nvim-tree").setup({
 require'lspconfig'.pyright.setup{
     on_attach=custom_attach,
 }
+
+-- dark mode
+local auto_dark_mode = require('auto-dark-mode')
+
+auto_dark_mode.setup({
+	update_interval = 1000,
+	set_dark_mode = function()
+		vim.api.nvim_set_option('background', 'dark')
+--		vim.cmd('colorscheme ayu')
+	end,
+	set_light_mode = function()
+		vim.api.nvim_set_option('background', 'light')
+--		vim.cmd('colorscheme ayu')
+	end,
+})
+auto_dark_mode.init()
 
 -- lsp
 local custom_attach = function(client)
