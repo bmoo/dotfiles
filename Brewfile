@@ -2,6 +2,7 @@
 tap 'homebrew/cask'
 tap 'golangci/tap'
 tap 'rs/tap'
+tap 'epk/epk'
 cask_args appdir: "/Applications"
 
 # Core Homebrew
@@ -14,10 +15,10 @@ brew 'cairo'
 brew 'cmake'
 brew 'cscope'
 brew 'ctags'
-brew 'darksky-weather'
 brew 'docker-completion'
 brew 'docker-credential-helper'
 brew 'docker-credential-helper-ecr'
+brew 'fd'
 brew 'fontconfig'
 brew 'freetype'
 brew 'fribidi'
@@ -107,12 +108,12 @@ brew 'xz'
 brew 'youtube-dl'
 brew 'zlib'
 brew 'zsh'
+brew 'ripgrep'
 
 # Cask Apps
 cask 'aws-vault'
 cask 'sloth'
-cask 'vagrant'
-cask 'goland'
+cask 'font-sf-mono-nerd-font'
 
 # Mac App Store
 mas "Numbers", id: 409203825

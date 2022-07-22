@@ -44,6 +44,16 @@ return packer.startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
+  -- telescope
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    requires = { 
+      'nvim-lua/plenary.nvim',
+      'sharkdp/fd',
+      'BurntSushi/ripgrep',
+    }
+  }
+
   use {
     'kyazdani42/nvim-tree.lua',
     requires = {
@@ -52,7 +62,6 @@ return packer.startup(function(use)
   }
 
   use 'christoomey/vim-tmux-navigator' -- enable tmux keybinds while using vim
-
 
   use 'nvim-treesitter/nvim-treesitter'
 
