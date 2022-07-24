@@ -71,6 +71,7 @@ auto_dark_mode.init()
 
 -- completion
 local cmp = require('cmp')
+local lspkind = require('lspkind')
 cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
@@ -97,7 +98,18 @@ cmp.setup({
         native_menu = false,
         ghost_text = true,
     },
-
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "symbol_text",
+            menu = ({
+                buffer = "[Buffer]",
+                nvim_lsp = "[LSP]",
+                luasnip = "[LuaSnip]",
+                nvim_lua = "[Lua]",
+                latex_symbols = "[Latex]",
+            })
+        }),
+    },
 })
 
 -- python
