@@ -44,6 +44,14 @@ return packer.startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
+  -- completion
+  use 'hrsh7th/nvim-cmp' 
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'saadparwaiz1/cmp_luasnip'
+
   -- telescope
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
