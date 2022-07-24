@@ -115,10 +115,3 @@ brew 'ripgrep'
 cask 'aws-vault'
 cask 'sloth'
 cask 'font-sf-mono-nerd-font'
-
-# Mac App Store
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
-mas "Keynote", id: 409183694
-mas "EyeFriendly", id: 587769990
-mas "CARROT Weather", id: 993487541
