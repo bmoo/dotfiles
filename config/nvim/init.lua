@@ -28,6 +28,7 @@ require('lualine').setup({
     },
 })
 
+
 -- nvim-tree config
 vim.keymap.set('n', '<leader>f', ':NvimTreeToggle<CR>')
 require("nvim-tree").setup({
@@ -90,6 +91,7 @@ cmp.setup({
         ["<c-space>"] = cmp.mapping.complete(),
     },
     sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
       { name = 'luasnip' }, -- For luasnip users.
     }, {
       { name = 'buffer' },
@@ -183,9 +185,29 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
 
-require('lspconfig')['pyright'].setup{
+-- lsp is built in to neovim but the config is external
+local nvim_lsp = require('lspconfig')
+nvim_lsp.pyright.setup{
     on_attach = on_attach,
 }
-require('lspconfig')['tsserver'].setup{
+
+nvim_lsp.tsserver.setup{
     on_attach = on_attach,
+}
+
+nvim_lsp.gopls.setup{
+	cmd = {'gopls'},
+-- for postfix snippets and analyzers
+	capabilities = capabilities,
+	    settings = {
+	      gopls = {
+		      experimentalPostfixCompletions = true,
+		      analyses = {
+		        unusedparams = true,
+		        shadow = true,
+		     },
+		     staticcheck = true,
+		    },
+	    },
+	on_attach = on_attach,
 }

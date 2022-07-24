@@ -18,3 +18,5 @@
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - [brew bundle install]
+  - [npm install -g typescript pyright]
+  - [go install golang.org/x/tools/gopls@latest]
