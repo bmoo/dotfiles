@@ -32,6 +32,10 @@ return packer.startup(function(use)
   -- Add you plugins here:
   use 'wbthomason/packer.nvim' -- packer can manage itself
 
+  -- mason config
+  use { "williamboman/mason.nvim" }
+  use { "williamboman/mason-lspconfig.nvim" }
+
   -- color scheme
   use 'Shatur/neovim-ayu'
 

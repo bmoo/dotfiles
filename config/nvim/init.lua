@@ -28,6 +28,17 @@ require('lualine').setup({
     },
 })
 
+-- mason config
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓"
+        },
+    },
+})
+require("mason-lspconfig").setup({
+    ensure_installed = { "sumneko_lua" },
+})
 
 -- nvim-tree config
 vim.keymap.set('n', '<leader>f', ':NvimTreeToggle<CR>')
