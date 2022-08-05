@@ -115,7 +115,7 @@
   editor = nvim
   excludesfile = ~/.yadr/git/gitignore
 	attributesfile = /Users/bradmoore/.gitattributes
-  pager = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less
+  pager = "diff-so-fancy | less -RFX"
 [advice]
   statusHints = false
 [diff]
