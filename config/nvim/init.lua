@@ -4,6 +4,7 @@ vim.g.mapleader = ','
 
 -- appearance
 vim.o.number = true
+vim.o.relativenumber = true
 vim.o.syntax = "ON"
 vim.o.termguicolors = true
 vim.o.background = "light"
