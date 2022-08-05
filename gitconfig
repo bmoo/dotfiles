@@ -99,13 +99,9 @@
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
   prompt = false
-[mergetool "mvimdiff"]
-  cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
-  keepbackup=false
 [merge]
   summary = true
   verbosity = 1
-  tool = mvimdiff
 [apply]
   whitespace = nowarn
 [branch]
@@ -119,6 +115,7 @@
   editor = nvim
   excludesfile = ~/.yadr/git/gitignore
 	attributesfile = /Users/bradmoore/.gitattributes
+  pager = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less
 [advice]
   statusHints = false
 [diff]
@@ -134,12 +131,10 @@
   path = .gitconfig.user
 [user]
 	name = Brad Moore
-	email = brad.moore@arcules.com
-
-[url "git@gitlab.com:"]
-        insteadOf = https://gitlab.com/
-
+	email = brad.moore@vacasa.com
 [pull]
 	rebase = false
 [init]
 	defaultBranch = main
+[credential]
+	helper = /usr/local/share/gcm-core/git-credential-manager-core

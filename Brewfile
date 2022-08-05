@@ -3,6 +3,7 @@ tap 'homebrew/cask'
 tap 'golangci/tap'
 tap 'rs/tap'
 tap 'epk/epk'
+tap 'microsoft/git'
 cask_args appdir: "/Applications"
 
 # Core Homebrew
@@ -115,3 +116,4 @@ brew 'ripgrep'
 cask 'aws-vault'
 cask 'sloth'
 cask 'font-sf-mono-nerd-font'
+cask 'git-credential-manager-core'
