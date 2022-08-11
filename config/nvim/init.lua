@@ -70,7 +70,6 @@ require("nvim-tree").setup({
 local auto_dark_mode = require('auto-dark-mode')
 
 auto_dark_mode.setup({
-	update_interval = 1000,
 	set_dark_mode = function()
 		vim.api.nvim_set_option('background', 'dark')
 --		vim.cmd('colorscheme ayu')
@@ -86,6 +85,12 @@ auto_dark_mode.init()
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 cmp.setup({
+  completion = {
+    keyword_length = 3,
+  },
+  performance = {
+      debounce = 300,
+  },
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)

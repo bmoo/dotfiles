@@ -49,7 +49,7 @@ return packer.startup(function(use)
   }
 
   -- completion
-  use 'hrsh7th/nvim-cmp' 
+  use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-nvim-lua'
