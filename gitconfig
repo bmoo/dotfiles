@@ -131,7 +131,7 @@
   path = .gitconfig.user
 [user]
 	name = Brad Moore
-	email = brad.moore@vacasa.com
+	email = 867732+bmoo@users.noreply.github.com
 [pull]
 	rebase = false
 [init]
