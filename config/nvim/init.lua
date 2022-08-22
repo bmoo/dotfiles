@@ -29,13 +29,29 @@ require("lualine").setup({
   },
   sections = {
     lualine_c = {
-        {
-            'filename',
-            path = 1,
-            shorting_target = 40,
-        },
+      {
+        "filename",
+        path = 1,
+        shorting_target = 40,
+      },
     },
   },
+})
+
+-- buffer line
+require("bufferline").setup({
+    options = {
+    offsets = {
+      {
+        filetype = "NvimTree",
+        text = function()
+          return vim.fn.getcwd()
+        end,
+        highlight = "Directory",
+        text_align = "left"
+      }
+    }
+}
 })
 
 -- mason config
