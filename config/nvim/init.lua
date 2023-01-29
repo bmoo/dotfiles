@@ -1,14 +1,16 @@
 require("packer_init")
 
+-- vim.g is global
 vim.g.mapleader = ","
 
 -- appearance
+-- vim.o is options
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.syntax = "ON"
 vim.o.termguicolors = true
-vim.o.background = "light"
 vim.o.mouse = "a"
+
 
 -- tabs
 vim.o.expandtab = true
@@ -16,7 +18,11 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 -- color scheme
-require("ayu").colorscheme()
+local ayu = require("ayu")
+ayu.setup {
+    mirage = true,
+}
+ayu.colorscheme()
 
 -- file browser
 require("nvim-tree").setup()
@@ -96,12 +102,14 @@ local auto_dark_mode = require("auto-dark-mode")
 
 auto_dark_mode.setup({
     set_dark_mode = function()
-        vim.api.nvim_set_option("background", "dark")
-        --		vim.cmd('colorscheme ayu')
+        vim.o.background = 'dark'
     end,
     set_light_mode = function()
-        vim.api.nvim_set_option("background", "light")
-        --		vim.cmd('colorscheme ayu')
+        if os.getenv("DARK") then
+            vim.o.background = 'dark'
+        else
+            vim.o.background = 'light'
+        end
     end,
 })
 auto_dark_mode.init()
