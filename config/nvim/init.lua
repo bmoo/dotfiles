@@ -24,6 +24,9 @@ ayu.setup {
 }
 ayu.colorscheme()
 
+-- better UI prompts
+require('noice').setup()
+
 -- file browser
 require("nvim-tree").setup()
 

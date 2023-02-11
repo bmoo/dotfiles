@@ -3,13 +3,13 @@ local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
     packer_bootstrap = fn.system({
-        "git",
-        "clone",
-        "--depth",
-        "1",
-        "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    })
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "https://github.com/wbthomason/packer.nvim",
+            install_path,
+        })
     vim.o.runtimepath = vim.fn.stdpath("data") .. "/site/pack/*/start/*," .. vim.o.runtimepath
 end
 
@@ -29,92 +29,104 @@ end
 
 -- Install plugins
 return packer.startup(function(use)
-    -- Add you plugins here:
-    use("wbthomason/packer.nvim") -- packer can manage itself
+        -- Add you plugins here:
+        use("wbthomason/packer.nvim") -- packer can manage itself
 
-    -- mason config
-    use({ "williamboman/mason.nvim" })
-    use({ "williamboman/mason-lspconfig.nvim" })
+        use {
+            'folke/noice.nvim',
+            requires = {
+                -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+                "MunifTanjim/nui.nvim",
+                -- OPTIONAL:
+                --   `nvim-notify` is only needed, if you want to use the notification view.
+                --   If not available, we use `mini` as the fallback
+                "rcarriga/nvim-notify",
+            }
+        }
 
-    -- buffer line
-    use({ "akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons" })
+        -- mason config
+        use({ "williamboman/mason.nvim" })
+        use({ "williamboman/mason-lspconfig.nvim" })
 
-    -- color scheme
-    use("Shatur/neovim-ayu")
+        -- buffer line
+        use({ "akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons" })
 
-    use("neovim/nvim-lspconfig") -- Configurations for Nvim LSP
-    use("jose-elias-alvarez/null-ls.nvim")
+        -- color scheme
+        use("Shatur/neovim-ayu")
 
-    use("f-person/auto-dark-mode.nvim")
+        use("neovim/nvim-lspconfig") -- Configurations for Nvim LSP
+        use("jose-elias-alvarez/null-ls.nvim")
 
-    use({
-        "nvim-lualine/lualine.nvim",
-        requires = { "kyazdani42/nvim-web-devicons", opt = true },
-    })
+        use("f-person/auto-dark-mode.nvim")
 
-    -- completion
-    use("hrsh7th/nvim-cmp")
-    use("hrsh7th/cmp-buffer")
-    use("hrsh7th/cmp-path")
-    use("hrsh7th/cmp-nvim-lua")
-    use("hrsh7th/cmp-nvim-lsp")
-    use("saadparwaiz1/cmp_luasnip")
-    use("onsails/lspkind.nvim")
+        use({
+            "nvim-lualine/lualine.nvim",
+            requires = { "kyazdani42/nvim-web-devicons", opt = true },
+        })
 
-    -- telescope
-    use({
-        "nvim-telescope/telescope.nvim",
-        tag = "0.1.0",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "sharkdp/fd",
-            "BurntSushi/ripgrep",
-        },
-    })
+        -- completion
+        use("hrsh7th/nvim-cmp")
+        use("hrsh7th/cmp-buffer")
+        use("hrsh7th/cmp-path")
+        use("hrsh7th/cmp-nvim-lua")
+        use("hrsh7th/cmp-nvim-lsp")
+        use("saadparwaiz1/cmp_luasnip")
+        use("onsails/lspkind.nvim")
 
-    use({
-        "kyazdani42/nvim-tree.lua",
-        requires = {
-            "kyazdani42/nvim-web-devicons", -- optional, for file icons
-        },
-    })
+        -- telescope
+        use({
+            "nvim-telescope/telescope.nvim",
+            tag = "0.1.0",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "sharkdp/fd",
+                "BurntSushi/ripgrep",
+            },
+        })
 
-    use("christoomey/vim-tmux-navigator") -- enable tmux keybinds while using vim
+        use({
+            "kyazdani42/nvim-tree.lua",
+            requires = {
+                "kyazdani42/nvim-web-devicons", -- optional, for file icons
+            },
+        })
 
-    use("nvim-treesitter/nvim-treesitter")
+        use("christoomey/vim-tmux-navigator") -- enable tmux keybinds while using vim
 
-    -- Statusline
-    use({
-        "feline-nvim/feline.nvim",
-        requires = { "kyazdani42/nvim-web-devicons" },
-    })
+        use("nvim-treesitter/nvim-treesitter")
 
-    -- git labels
-    use({
-        "lewis6991/gitsigns.nvim",
-        requires = { "nvim-lua/plenary.nvim" },
-        config = function()
-            require("gitsigns").setup({})
-        end,
-    })
+        -- Statusline
+        use({
+            "feline-nvim/feline.nvim",
+            requires = { "kyazdani42/nvim-web-devicons" },
+        })
 
-    -- Dashboard (start screen)
-    use({
-        "goolord/alpha-nvim",
-        requires = { "kyazdani42/nvim-web-devicons" },
-        config = function()
-            require("alpha").setup(require("alpha.themes.startify").config)
-        end,
-    })
+        -- git labels
+        use({
+            "lewis6991/gitsigns.nvim",
+            requires = { "nvim-lua/plenary.nvim" },
+            config = function()
+                require("gitsigns").setup({})
+            end,
+        })
 
-    use({
-        "jamestthompson3/nvim-remote-containers",
-        requires = { "nvim-treesitter/nvim-treesitter" },
-    })
+        -- Dashboard (start screen)
+        use({
+            "goolord/alpha-nvim",
+            requires = { "kyazdani42/nvim-web-devicons" },
+            config = function()
+                require("alpha").setup(require("alpha.themes.startify").config)
+            end,
+        })
 
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if packer_bootstrap then
-        require("packer").sync()
-    end
-end)
+        use({
+            "jamestthompson3/nvim-remote-containers",
+            requires = { "nvim-treesitter/nvim-treesitter" },
+        })
+
+        -- Automatically set up your configuration after cloning packer.nvim
+        -- Put this at the end after all plugins
+        if packer_bootstrap then
+            require("packer").sync()
+        end
+    end)
