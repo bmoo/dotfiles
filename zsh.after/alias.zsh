@@ -22,4 +22,5 @@ alias dsh='dshfunc() { docker run --rm -ti $1 sh }; dshfunc'
 
 alias ci=circleci
 alias lg=lazygit
+alias tf=terraform
 alias tm='tmux new -As0'
