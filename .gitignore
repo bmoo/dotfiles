@@ -2,4 +2,5 @@
 config/nvim/plugin/packer_compiled.lua
 
 zsh.after/tokens.zsh
+zsh.after/secrets.zsh
 zsh.after/gh.zsh
