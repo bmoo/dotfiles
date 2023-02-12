@@ -18,7 +18,7 @@ cmp.setup({
         end,
     },
     mapping = {
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs( -4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-e>"] = cmp.mapping.close(),
         ["<c-y>"] = cmp.mapping.confirm({
@@ -66,30 +66,40 @@ require("null-ls").setup({
                 group = augroup,
                 buffer = pbufnr,
                 callback = function()
-                    vim.lsp.buf.format {
+                    vim.lsp.buf.format({
                         options = { bufnr = pbufnr },
                         -- don't use null-ls to format lua files
-                        filter = function(cl) return cl.name ~= "null-ls" end
-                    }
+                        filter = function(cl)
+                            return cl.name ~= "null-ls"
+                        end,
+                    })
                 end,
             })
         end
     end,
 })
 
-local lspconfig = require 'lspconfig'
-local configs = require 'lspconfig/configs'
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig/configs")
 
 if not configs.golangcilsp then
     configs.golangcilsp = {
         default_config = {
-            cmd = { 'golangci-lint-langserver' },
-            root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+            cmd = { "golangci-lint-langserver" },
+            root_dir = lspconfig.util.root_pattern(".git", "go.mod"),
             init_options = {
-                command = { "golangci-lint", "run", "--enable-all", "--disable", "lll", "--out-format", "json",
-                    "--issues-exit-code=1" };
-            }
-        };
+                command = {
+                    "golangci-lint",
+                    "run",
+                    "--enable-all",
+                    "--disable",
+                    "lll",
+                    "--out-format",
+                    "json",
+                    "--issues-exit-code=1",
+                },
+            },
+        },
     }
 end
 -- Use an on_attach function to only map the following keys
@@ -97,6 +107,9 @@ end
 local on_attach = function(_, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+    -- format on save
+    vim.api.nvim_command([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]])
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -119,10 +132,10 @@ local on_attach = function(_, bufnr)
 end
 
 local nvim_lsp = require("lspconfig")
-nvim_lsp.golangci_lint_ls.setup {
-    filetypes = { 'go', 'gomod' },
-    on_attach = on_attach
-}
+nvim_lsp.golangci_lint_ls.setup({
+    filetypes = { "go", "gomod" },
+    on_attach = on_attach,
+})
 nvim_lsp.pyright.setup({
     on_attach = on_attach,
 })
