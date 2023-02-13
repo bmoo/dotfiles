@@ -1,4 +1,4 @@
-require("packer_init")
+require("lazyconfig")
 
 require("lsp")
 require("treesitter")
@@ -31,9 +31,6 @@ ayu.colorscheme()
 -- better UI prompts and toasts
 require("noice").setup()
 
--- file browser
-require("nvim-tree").setup()
-
 -- lua line
 require("lualine").setup({
     options = {
@@ -54,6 +51,7 @@ require("lualine").setup({
 -- buffer line
 require("bufferline").setup({
     options = {
+        numbers = "buffer_id",
         offsets = {
             {
                 filetype = "NvimTree",
@@ -64,6 +62,7 @@ require("bufferline").setup({
                 text_align = "left",
             },
         },
+        diagnostics = "nvim_lsp",
     },
 })
 
@@ -94,7 +93,6 @@ require("nvim-tree").setup({
 
 -- dark mode
 local auto_dark_mode = require("auto-dark-mode")
-
 auto_dark_mode.setup({
     set_dark_mode = function()
         vim.o.background = "dark"
