@@ -173,3 +173,15 @@ nvim_lsp.sumneko_lua.setup({
         },
     },
 })
+
+-- mason config
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+        },
+    },
+})
+require("mason-lspconfig").setup({
+    ensure_installed = { "lua_ls" },
+})

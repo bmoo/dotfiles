@@ -1,5 +1,10 @@
 require("packer_init")
 
+require("lsp")
+require("treesitter")
+require("dapconfig")
+require("telescopeconfig")
+
 -- vim.g is global
 vim.g.mapleader = ","
 
@@ -11,7 +16,6 @@ vim.o.syntax = "ON"
 vim.o.termguicolors = true
 vim.o.mouse = "a"
 
-
 -- tabs
 vim.o.expandtab = true
 vim.o.tabstop = 4
@@ -19,13 +23,13 @@ vim.o.shiftwidth = 4
 
 -- color scheme
 local ayu = require("ayu")
-ayu.setup {
+ayu.setup({
     mirage = true,
-}
+})
 ayu.colorscheme()
 
--- better UI prompts
-require('noice').setup()
+-- better UI prompts and toasts
+require("noice").setup()
 
 -- file browser
 require("nvim-tree").setup()
@@ -57,22 +61,10 @@ require("bufferline").setup({
                     return vim.fn.getcwd()
                 end,
                 highlight = "Directory",
-                text_align = "left"
-            }
-        }
-    }
-})
-
--- mason config
-require("mason").setup({
-    ui = {
-        icons = {
-            package_installed = "✓",
+                text_align = "left",
+            },
         },
     },
-})
-require("mason-lspconfig").setup({
-    ensure_installed = { "sumneko_lua" },
 })
 
 -- nvim-tree config
@@ -105,61 +97,14 @@ local auto_dark_mode = require("auto-dark-mode")
 
 auto_dark_mode.setup({
     set_dark_mode = function()
-        vim.o.background = 'dark'
+        vim.o.background = "dark"
     end,
     set_light_mode = function()
         if os.getenv("DARK") then
-            vim.o.background = 'dark'
+            vim.o.background = "dark"
         else
-            vim.o.background = 'light'
+            vim.o.background = "light"
         end
     end,
 })
 auto_dark_mode.init()
-
--- python
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
-
-
--- telescope
-require("telescope").setup({
-    defaults = {
-        -- Default configuration for telescope goes here:
-        -- config_key = value,
-        mappings = {
-            i = {
-                -- map actions.which_key to <C-h> (default: <C-/>)
-                -- actions.which_key shows the mappings for your picker,
-                -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-                ["<C-h>"] = "which_key",
-            },
-        },
-    },
-    pickers = {
-        -- Default configuration for builtin pickers goes here:
-        -- picker_name = {
-        --   picker_config_key = value,
-        --   ...
-        -- }
-        -- Now the picker_config_key will be applied every time you call this
-        -- builtin picker
-    },
-    extensions = {
-        -- Your extension configuration goes here:
-        -- extension_name = {
-        --   extension_config_key = value,
-        -- }
-        -- please take a look at the readme of the extension you want to configure
-    },
-})
-
-vim.keymap.set("n", "ff", require("telescope.builtin").find_files, opts)
-vim.keymap.set("n", "fg", require("telescope.builtin").live_grep, opts)
-vim.keymap.set("n", "fb", require("telescope.builtin").buffers, opts)
-vim.keymap.set("n", "fh", require("telescope.builtin").help_tags, opts)
-
-require("lsp")
