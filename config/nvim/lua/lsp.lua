@@ -1,5 +1,4 @@
 -- completion
-
 local cmp = require("cmp")
 
 -- lspkind makes the dialogs look cool
@@ -149,7 +148,7 @@ nvim_lsp.gopls.setup({
     on_attach = on_attach,
 })
 
-nvim_lsp.sumneko_lua.setup({
+nvim_lsp.lua_ls.setup({
     on_attach = on_attach,
     settings = {
         Lua = {
@@ -162,11 +161,6 @@ nvim_lsp.sumneko_lua.setup({
                 globals = { "vim" },
                 disable = { "need-check-nil" },
             },
-            --       workspace = {
-            --         -- Make the server aware of Neovim runtime files
-            --         library = vim.api.nvim_get_runtime_file("", true),
-            --       },
-            -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
                 enable = false,
             },
@@ -183,5 +177,5 @@ require("mason").setup({
     },
 })
 require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls" },
+    ensure_installed = { "lua_ls", "golangci-lint", "golangci-lint-langserver" },
 })
