@@ -1,12 +1,12 @@
+-- vim.g is global
+vim.g.mapleader = ","
+
 require("lazyconfig")
 
 require("lsp")
 require("treesitter")
 require("dapconfig")
 require("telescopeconfig")
-
--- vim.g is global
-vim.g.mapleader = ","
 
 -- appearance
 -- vim.o is options
@@ -30,6 +30,12 @@ ayu.colorscheme()
 
 -- better UI prompts and toasts
 require("noice").setup()
+
+-- which-key
+require("which-key").setup()
+
+-- auto pairs
+require("nvim-autopairs").setup()
 
 -- lua line
 require("lualine").setup({

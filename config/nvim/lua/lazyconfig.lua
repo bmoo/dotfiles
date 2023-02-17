@@ -11,12 +11,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
-
 local devicons = "kyazdani42/nvim-web-devicons"
+
 -- Install plugins
 require("lazy").setup({
+    -- editor help
+    "windwp/nvim-autopairs",
+    "windwp/nvim-ts-autotag",
     -- debugger
     "mfussenegger/nvim-dap",
     "leoluz/nvim-dap-go",
@@ -53,6 +54,7 @@ require("lazy").setup({
     "jose-elias-alvarez/null-ls.nvim",
 
     "f-person/auto-dark-mode.nvim",
+    "folke/which-key.nvim",
 
     {
         "nvim-lualine/lualine.nvim",

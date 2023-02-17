@@ -1,8 +1,26 @@
--- completion
-local cmp = require("cmp")
+-- mason config
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+        },
+    },
+})
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "tailwindcss",
+        "tsserver",
+        "lua_ls",
+        "golangci-lint",
+        "golangci-lint-langserver",
+    },
+})
 
 -- lspkind makes the dialogs look cool
 local lspkind = require("lspkind")
+
+-- completion
+local cmp = require("cmp")
 cmp.setup({
     completion = {
         keyword_length = 3,
@@ -148,6 +166,13 @@ nvim_lsp.gopls.setup({
     on_attach = on_attach,
 })
 
+nvim_lsp.tsserver.setup({
+    on_attach = on_attach,
+})
+nvim_lsp.tailwindcss.setup({
+    on_attach = on_attach,
+})
+
 nvim_lsp.lua_ls.setup({
     on_attach = on_attach,
     settings = {
@@ -166,16 +191,4 @@ nvim_lsp.lua_ls.setup({
             },
         },
     },
-})
-
--- mason config
-require("mason").setup({
-    ui = {
-        icons = {
-            package_installed = "✓",
-        },
-    },
-})
-require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls", "golangci-lint", "golangci-lint-langserver" },
 })
