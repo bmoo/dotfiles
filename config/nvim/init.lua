@@ -21,6 +21,13 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
+-- buffer keymaps
+local bufopts = { noremap = true, silent = true }
+vim.keymap.set("n", "bl", ":blast<CR>", bufopts)
+vim.keymap.set("n", "bf", ":bfirst<CR>", bufopts)
+vim.keymap.set("n", "bp", ":bprevious<CR>", bufopts)
+vim.keymap.set("n", "bn", ":bnext<CR>", bufopts)
+
 -- color scheme
 local ayu = require("ayu")
 ayu.setup({
