@@ -42,6 +42,9 @@ vim.keymap.set("n", "<Leader>ds", function()
     widgets.centered_float(widgets.scopes)
 end)
 
+require("dapui").setup()
+require("nvim-dap-virtual-text").setup()
+
 local dap = require("dap")
 dap.adapters.delve = {
     type = "server",
@@ -76,6 +79,11 @@ dap.configurations.go = {
         program = "./${relativeFileDirname}",
     },
 }
+
+-- requires mason to be installed first
+require("mason-nvim-dap").setup({
+    ensure_installed = { "python", "delve" },
+})
 
 require("dap-go").setup({
     -- Additional dap configurations can be added.

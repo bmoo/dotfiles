@@ -18,13 +18,19 @@ require("lazy").setup({
     -- editor help
     "windwp/nvim-autopairs",
     "windwp/nvim-ts-autotag",
+
     -- debugger
     "mfussenegger/nvim-dap",
     "leoluz/nvim-dap-go",
     "rcarriga/nvim-dap-ui",
     "theHamsta/nvim-dap-virtual-text",
     "nvim-telescope/telescope-dap.nvim",
-
+    {
+        "jay-babu/mason-nvim-dap.nvim",
+        dependencies = {
+            "williamboman/mason.nvim",
+        },
+    },
     {
         "folke/noice.nvim",
         dependencies = {
