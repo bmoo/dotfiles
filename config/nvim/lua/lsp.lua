@@ -11,8 +11,9 @@ require("mason-lspconfig").setup({
         "tailwindcss",
         "tsserver",
         "lua_ls",
-        "golangci-lint",
-        "golangci-lint-langserver",
+        "gopls",
+        "efm",
+        "pyright",
     },
 })
 
