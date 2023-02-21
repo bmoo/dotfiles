@@ -1,5 +1,5 @@
 -- vim.g is global
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 
 require("lazyconfig")
 
