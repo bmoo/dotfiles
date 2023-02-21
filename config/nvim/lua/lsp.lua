@@ -149,28 +149,28 @@ local on_attach = function(_, bufnr)
 end
 
 local nvim_lsp = require("lspconfig")
-nvim_lsp.golangci_lint_ls.setup({
-    filetypes = { "go", "gomod" },
-    on_attach = on_attach,
-})
-nvim_lsp.pyright.setup({
-    on_attach = on_attach,
-})
+local servers = { "golangci_lint_ls", "pyright", "python_lsp_server", "tsserver", "tailwindcss" }
+for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup({
+        on_attach = on_attach,
+    })
+end
 
-nvim_lsp.tsserver.setup({
+nvim_lsp.efm.setup({
     on_attach = on_attach,
-})
-
-nvim_lsp.gopls.setup({
-    cmd = { "gopls" },
-    on_attach = on_attach,
-})
-
-nvim_lsp.tsserver.setup({
-    on_attach = on_attach,
-})
-nvim_lsp.tailwindcss.setup({
-    on_attach = on_attach,
+    flags = {
+        debounce_text_changes = 150,
+    },
+    init_options = { documentFormatting = true },
+    filetypes = { "python" },
+    settings = {
+        rootMarkers = { ".git/" },
+        languages = {
+            python = {
+                { formatCommand = "black --quiet -", formatStdin = true },
+            },
+        },
+    },
 })
 
 nvim_lsp.lua_ls.setup({
