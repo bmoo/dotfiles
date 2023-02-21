@@ -38,7 +38,7 @@ ayu.colorscheme()
 -- better UI prompts and toasts
 require("noice").setup()
 
--- which-key
+-- which-key provides a helpful dialog explaining keyboard shortcuts
 require("which-key").setup()
 
 -- auto pairs
