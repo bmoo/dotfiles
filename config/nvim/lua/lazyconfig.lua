@@ -19,6 +19,9 @@ require("lazy").setup({
     "windwp/nvim-autopairs",
     "windwp/nvim-ts-autotag",
 
+    -- indent blank lines
+    "lukas-reineke/indent-blankline.nvim",
+
     -- debugger
     "mfussenegger/nvim-dap",
     "leoluz/nvim-dap-go",
