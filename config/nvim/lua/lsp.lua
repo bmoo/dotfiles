@@ -44,7 +44,7 @@ cmp.setup({
     mapping = {
         ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item()),
         ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item()),
-        ["<C-d>"] = cmp.mapping.scroll_docs( -4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-e>"] = cmp.mapping.close(),
         ["<c-y>"] = cmp.mapping.confirm({
@@ -83,7 +83,8 @@ require("null-ls").setup({
     sources = {
         require("null-ls").builtins.formatting.stylua,
         require("null-ls").builtins.diagnostics.eslint,
-        require("null-ls").builtins.completion.spell,
+        --        don't provide text sugggestions
+        --        require("null-ls").builtins.completion.spell,
     },
     on_attach = function(client, pbufnr)
         if client.supports_method("textDocument/formatting") then
