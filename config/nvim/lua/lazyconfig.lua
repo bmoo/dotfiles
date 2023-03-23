@@ -22,6 +22,14 @@ require("lazy").setup({
     -- indent blank lines
     "lukas-reineke/indent-blankline.nvim",
 
+    -- lsp-aware rename
+    {
+        "smjonas/inc-rename.nvim",
+        config = function()
+            require("inc_rename").setup()
+        end,
+    },
+
     -- debugger
     "mfussenegger/nvim-dap",
     "leoluz/nvim-dap-go",
@@ -44,6 +52,11 @@ require("lazy").setup({
             --   If not available, we use `mini` as the fallback
             "rcarriga/nvim-notify",
         },
+        config = function()
+            require("noice").setup({
+                presets = { inc_rename = true },
+            })
+        end,
     },
     -- golang
     {

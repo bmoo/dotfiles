@@ -28,6 +28,9 @@ vim.keymap.set("n", "bf", ":bfirst<CR>", bufopts)
 vim.keymap.set("n", "bp", ":bprevious<CR>", bufopts)
 vim.keymap.set("n", "bn", ":bnext<CR>", bufopts)
 
+-- rename keymap
+vim.keymap.set("n", "<leader>rn", ":IncRename ")
+
 -- color scheme
 local ayu = require("ayu")
 ayu.setup({
@@ -40,9 +43,6 @@ require("indent_blankline").setup({
     show_current_context = true,
     show_current_context_start = true,
 })
-
--- better UI prompts and toasts
-require("noice").setup()
 
 -- which-key provides a helpful dialog explaining keyboard shortcuts
 require("which-key").setup()
