@@ -55,6 +55,8 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = "nvim_lsp" },
+        -- auto complete neovim api calls
+        { name = "nvim_lua" },
         { name = "luasnip" }, -- For luasnip users.
     }, {
         -- { name = "buffer" },
