@@ -1,0 +1,20 @@
+#!/bin/sh
+
+COMMAND=$1
+echo "Using command ${COMMAND}"
+
+body() {
+    clear
+    date
+    bash -c "${COMMAND}"
+}
+
+watch() {
+    fswatch \
+        --one-per-batch \
+        --latency 0.1 \
+        --recursive \
+        .
+}
+
+body; watch | while read event; do body; done
