@@ -24,3 +24,6 @@ alias ci=circleci
 alias lg=lazygit
 alias tf=terraform
 alias tm='tmux new -As0'
+
+# weather!
+alias weather='curl "wttr.in/san%20diego?u"'
