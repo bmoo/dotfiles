@@ -85,20 +85,27 @@ require("bufferline").setup({
     },
 })
 
+local nvimtree_attach = function(bufnr)
+    local api = require("nvim-tree.api")
+    local function opts(desc)
+        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    api.config.mappings.default_on_attach(bufnr)
+
+    vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
+    vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
+    vim.keymap.set("n", "s", api.node.open.horizontal, opts("Open: Horizontal Split"))
+end
+
 -- nvim-tree config
 vim.keymap.set("n", "<leader>f", ":NvimTreeToggle<CR>")
 require("nvim-tree").setup({
     sync_root_with_cwd = true,
     sort_by = "case_sensitive",
+    on_attach = nvimtree_attach,
     view = {
         adaptive_size = true,
-        mappings = {
-            list = {
-                { key = "u", action = "dir_up" },
-                { key = "v", action = "vsplit" },
-                { key = "s", action = "split" },
-            },
-        },
     },
     renderer = {
         group_empty = true,
