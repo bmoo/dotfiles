@@ -18,10 +18,8 @@ require("lazy").setup({
     -- editor help
     "windwp/nvim-autopairs",
     "windwp/nvim-ts-autotag",
-
     -- indent blank lines
     "lukas-reineke/indent-blankline.nvim",
-
     -- lsp-aware rename
     {
         "smjonas/inc-rename.nvim",
@@ -29,7 +27,6 @@ require("lazy").setup({
             require("inc_rename").setup()
         end,
     },
-
     -- debugger
     "mfussenegger/nvim-dap",
     "leoluz/nvim-dap-go",
@@ -73,31 +70,35 @@ require("lazy").setup({
         ft = { "go", "gomod" },
         build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
     },
-
     -- mason config
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-
     -- buffer line
     {
         "akinsho/bufferline.nvim",
         dependencies = devicons,
     },
-
     -- color scheme
     "Shatur/neovim-ayu",
 
-    "neovim/nvim-lspconfig", -- Configurations for Nvim LSP
-    "jose-elias-alvarez/null-ls.nvim",
+    -- LSP Config
+    {
+        "neovim/nvim-lspconfig", -- Configurations for Nvim LSP
+        dependencies = {
+            {
+                "SmiteshP/nvim-navic",
+                "MunifTanjim/nui.nvim",
+            },
+        },
+    },
 
+    "jose-elias-alvarez/null-ls.nvim",
     "f-person/auto-dark-mode.nvim",
     "folke/which-key.nvim",
-
     {
         "nvim-lualine/lualine.nvim",
         dependencies = devicons,
     },
-
     -- completion
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-buffer",
@@ -107,7 +108,6 @@ require("lazy").setup({
     "saadparwaiz1/cmp_luasnip",
     "onsails/lspkind.nvim",
     "ErichDonGubler/lsp_lines.nvim", -- format error dialogs nicely
-
     -- telescope
     {
         "nvim-telescope/telescope.nvim",
@@ -117,21 +117,17 @@ require("lazy").setup({
             "BurntSushi/ripgrep",
         },
     },
-
     {
         "kyazdani42/nvim-tree.lua",
         dependencies = devicons,
     },
-
     "christoomey/vim-tmux-navigator", -- enable tmux keybinds while using vim
     "nvim-treesitter/nvim-treesitter",
-
     -- Statusline
     {
         "feline-nvim/feline.nvim",
         dependencies = devicons,
     },
-
     -- git labels
     {
         "lewis6991/gitsigns.nvim",
@@ -140,7 +136,6 @@ require("lazy").setup({
             require("gitsigns").setup({})
         end,
     },
-
     -- Dashboard (start screen)
     {
         "goolord/alpha-nvim",

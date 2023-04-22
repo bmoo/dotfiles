@@ -50,6 +50,8 @@ require("which-key").setup()
 -- auto pairs
 require("nvim-autopairs").setup()
 
+local navic = require("nvim-navic")
+
 -- lua line
 require("lualine").setup({
     options = {
@@ -62,6 +64,14 @@ require("lualine").setup({
                 "filename",
                 path = 1,
                 shorting_target = 40,
+            },
+            {
+                function()
+                    return navic.get_location()
+                end,
+                cond = function()
+                    return navic.is_available()
+                end,
             },
         },
     },
