@@ -106,7 +106,7 @@ require("lazy").setup({
     "hrsh7th/cmp-nvim-lsp",
     "saadparwaiz1/cmp_luasnip",
     "onsails/lspkind.nvim",
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim", -- format error dialogs nicely
+    "ErichDonGubler/lsp_lines.nvim", -- format error dialogs nicely
 
     -- telescope
     {
