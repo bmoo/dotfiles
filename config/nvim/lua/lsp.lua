@@ -14,6 +14,7 @@ require("mason-lspconfig").setup({
         "gopls",
         "efm",
         "pyright",
+        "python_lsp_server",
     },
 })
 
