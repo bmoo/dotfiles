@@ -14,7 +14,7 @@ require("mason-lspconfig").setup({
         "gopls",
         "efm",
         "pyright",
-        "python_lsp_server",
+        "pylsp",
     },
 })
 
@@ -150,7 +150,7 @@ local on_attach = function(client, bufnr)
 end
 
 local nvim_lsp = require("lspconfig")
-local servers = { "pyright", "python_lsp_server", "tsserver", "tailwindcss", "gopls" }
+local servers = { "pyright", "pylsp", "tsserver", "tailwindcss", "gopls" }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
         on_attach = on_attach,
