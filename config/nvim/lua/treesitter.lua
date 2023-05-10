@@ -6,7 +6,7 @@ require("nvim-treesitter.configs").setup({
         "css",
         "lua",
         "vim",
-        "help",
+        "vimdoc",
         "go",
         "gomod",
         "gosum",
