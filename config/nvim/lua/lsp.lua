@@ -19,10 +19,10 @@ require("mason-lspconfig").setup({
 })
 
 -- Disable virtual_text since it's redundant due to lsp_lines.
-vim.diagnostic.config({
-    virtual_text = false,
-})
-require("lsp_lines").setup()
+-- vim.diagnostic.config({
+--     virtual_text = false,
+-- })
+-- require("lsp_lines").setup()
 
 -- lspkind makes the dialogs look cool
 local lspkind = require("lspkind")

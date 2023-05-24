@@ -29,9 +29,3 @@ require("telescope").setup({
         -- please take a look at the readme of the extension you want to configure
     },
 })
-
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "ff", require("telescope.builtin").find_files, opts)
-vim.keymap.set("n", "fg", require("telescope.builtin").live_grep, opts)
-vim.keymap.set("n", "fb", require("telescope.builtin").buffers, opts)
-vim.keymap.set("n", "fh", require("telescope.builtin").help_tags, opts)
