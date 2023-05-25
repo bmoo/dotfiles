@@ -21,7 +21,7 @@ function M.setup()
         -- database
         {
             "tpope/vim-dadbod",
-            opt = true,
+            optional = true,
             dependencies = {
                 "kristijanhusak/vim-dadbod-ui",
                 "kristijanhusak/vim-dadbod-completion",
