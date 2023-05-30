@@ -4,17 +4,17 @@ local whichkey = require("which-key")
 
 local conf = {
     window = {
-        border = "single", -- none, single, double, shadow
+        border = "single",   -- none, single, double, shadow
         position = "bottom", -- bottom, top
     },
 }
 whichkey.setup(conf)
 
 local opts = {
-    mode = "n",  -- Normal mode
+    mode = "n",     -- Normal mode
     prefix = "<leader>",
-    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-    silent = true, -- use `silent` when creating keymaps
+    buffer = nil,   -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true,  -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = false, -- use `nowait` when creating keymaps
 }
@@ -32,10 +32,7 @@ local function normal_keymap()
             b = { "<Cmd>BufferLinePick<Cr>", "Pick a Buffer" },
         },
 
-        r = {
-            name = "Refactor",
-            n = { "<Cmd>IncRename<Cr>", "Rename" },
-        },
+        ["r"] = { "<Cmd>lua vim.lsp.buf.rename()<Cr>", "Rename" },
 
         -- Database
         D = {
@@ -64,6 +61,7 @@ local function normal_keymap()
             K = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Show hover text" },
             r = { "<cmd>lua vim.lsp.buf.references()<cr>", "Show references" },
             F = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format code" },
+            c = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code actions" },
         },
         --         vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
         --         vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)

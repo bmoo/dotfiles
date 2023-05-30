@@ -147,11 +147,6 @@ function M.setup()
         },
         "christoomey/vim-tmux-navigator", -- enable tmux keybinds while using vim
         "nvim-treesitter/nvim-treesitter",
-        -- Statusline
-        {
-            "feline-nvim/feline.nvim",
-            dependencies = devicons,
-        },
         -- git labels
         {
             "lewis6991/gitsigns.nvim",
