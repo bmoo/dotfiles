@@ -59,9 +59,19 @@ local function normal_keymap()
             d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Go to Definition" },
             i = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Go to Implementation" },
             K = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Show hover text" },
-            r = { "<cmd>lua vim.lsp.buf.references()<cr>", "Show references" },
+            R = { "<cmd>lua vim.lsp.buf.references()<cr>", "Show references" },
             F = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format code" },
             c = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code actions" },
+            r = { "<cmd>TroubleToggle lsp_references<cr>", "Trouble LSP References" },
+        },
+
+        x = {
+            name = "Trouble",
+            x = { "<cmd>TroubleToggle<cr>", "Toggle" },
+            w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
+            d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
+            q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+            l = { "<cmd>TroubleToggle loclist<cr>", "Location List" },
         },
         --         vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
         --         vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
