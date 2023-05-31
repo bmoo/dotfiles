@@ -73,6 +73,18 @@ local function normal_keymap()
             q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
             l = { "<cmd>TroubleToggle loclist<cr>", "Location List" },
         },
+        h = {
+            name = "Gitsigns",
+            s = { "<cmd>Gitsigns stage_hunk<cr>", "Stage Hunk" },
+            r = { "<cmd>Gitsigns reset_hunk<cr>", "Reset Hunk" },
+            S = { "<cmd>Gitsigns stage_buffer<cr>", "Stage Buffer" },
+            u = { "<cmd>Gitsigns undo_stage_hunk<cr>", "Undo Stage Hunk" },
+            R = { "<cmd>Gitsigns reset_buffer<cr>", "Reset Buffer" },
+            p = { "<cmd>Gitsigns preview_hunk<cr>", "Preview Hunk" },
+            b = { '<cmd>lua require"gitsigns".blame_line{full=true}<cr>', "Blame Line" },
+            d = { "<cmd>Gitsigns diffthis<cr>", "Diff This" },
+            D = { '<cmd>lua require"gitsigns".diffthis{"~"}<cr>', "Lua Diff This" },
+        },
         --         vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
         --         vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
         --         vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -135,8 +147,30 @@ local function normal_keymap()
     whichkey.register(keymap, opts)
 end
 
+local visual_opts = {
+    mode = "v",  -- Normal mode
+    prefix = "<leader>",
+    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true, -- use `silent` when creating keymaps
+    noremap = true, -- use `noremap` when creating keymaps
+    nowait = false, -- use `nowait` when creating keymaps
+}
+
+local function visual_keymap()
+    local keymap = {
+        name = "Gitsigns",
+        h = {
+            s = { "<cmd>Gitsigns stage_hunk<cr>", "Stage Hunk" },
+            r = { "<cmd>Gitsigns reset_hunk<cr>", "Reset Hunk" },
+        },
+    }
+
+    whichkey.register(keymap, visual_opts)
+end
+
 function M.setup()
     normal_keymap()
+    visual_keymap()
 end
 
 return M
