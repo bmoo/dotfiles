@@ -6,6 +6,7 @@ require("mason").setup({
         },
     },
 })
+
 require("mason-lspconfig").setup({
     ensure_installed = {
         "tailwindcss",
@@ -16,12 +17,6 @@ require("mason-lspconfig").setup({
         "terraformls",
     },
 })
-
--- Disable virtual_text since it's redundant due to lsp_lines.
--- vim.diagnostic.config({
---     virtual_text = false,
--- })
--- require("lsp_lines").setup()
 
 -- lspkind makes the dialogs look cool
 local lspkind = require("lspkind")
@@ -83,6 +78,7 @@ local navic = require("nvim-navic")
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
+local lsp_format_group = vim.api.nvim_create_augroup("LSPFormatting", {})
 local on_attach = function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
@@ -91,11 +87,18 @@ local on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
+    if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = lsp_format_group, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = lsp_format_group,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+        })
+    end
     -- format on save
     vim.api.nvim_command([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]])
-
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
 end
 
 local nvim_lsp = require("lspconfig")
@@ -120,16 +123,6 @@ for _, lsp in ipairs(servers) do
     })
 end
 
--- nvim_lsp.pyright.setup({
---     on_attach = on_attach,
---     on_new_config = function(config, root_dir)
---         local env = vim.trim(vim.fn.system('cd "' .. root_dir .. '"; poetry env info -p 2>/dev/null'))
---         if string.len(env) > 0 then
---             config.settings.python.pythonPath = env .. "/bin/python"
---         end
---     end,
--- })
-
 nvim_lsp.lua_ls.setup({
     on_attach = on_attach,
     settings = {
@@ -151,18 +144,19 @@ nvim_lsp.lua_ls.setup({
 })
 
 local null_ls = require("null-ls")
-local nulldiag = null_ls.builtins.diagnostics
 
 -- lsp is built in to neovim but the config is external
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local augroup = vim.api.nvim_create_augroup("NullLSFormatting", {})
 null_ls.setup({
-    debug = true,
+    --    debug = true,
     sources = {
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.black.with({
             extra_args = { "--line-length=120 " },
         }),
-        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.code_actions.gitsigns,
+        -- commented out due to https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1564
+        -- null_ls.builtins.diagnostics.eslint,
     },
     on_attach = function(client, pbufnr)
         if client.supports_method("textDocument/formatting") then
