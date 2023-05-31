@@ -12,7 +12,6 @@ require("mason-lspconfig").setup({
         "tsserver",
         "lua_ls",
         "gopls",
-        "efm",
         "pyright",
         "terraformls",
     },
@@ -80,44 +79,6 @@ cmp.setup({
     },
 })
 
-local null_ls = require("null-ls")
-local nulldiag = null_ls.builtins.diagnostics
-
--- lsp is built in to neovim but the config is external
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.diagnostics.pylint,
-        nulldiag.flake8.with({
-            extra_args = { "--ignore", "e501", "--select", "e126" },
-        }),
-        nulldiag.mypy,
-        --         nulldiag.pylint.with({
-        --             extra_args = { "--disable", "c0114,c0115,c0116,c0301,w1203,w0703" },
-        --         }),
-    },
-    on_attach = function(client, pbufnr)
-        if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = pbufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                group = augroup,
-                buffer = pbufnr,
-                callback = function()
-                    vim.lsp.buf.format({
-                        options = { bufnr = pbufnr },
-                        -- don't use null-ls to format lua files
-                        filter = function(cl)
-                            return cl.name ~= "null-ls"
-                        end,
-                    })
-                end,
-            })
-        end
-    end,
-})
-
 local navic = require("nvim-navic")
 
 -- Use an on_attach function to only map the following keys
@@ -147,11 +108,11 @@ nvim_lsp.tflint.setup({
 })
 
 local servers = {
-    "pyright",
     "tsserver",
     "tailwindcss",
     "gopls",
     "terraformls",
+    "pyright",
 }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
@@ -159,22 +120,15 @@ for _, lsp in ipairs(servers) do
     })
 end
 
-nvim_lsp.efm.setup({
-    on_attach = on_attach,
-    flags = {
-        debounce_text_changes = 150,
-    },
-    init_options = { documentFormatting = true },
-    filetypes = { "python" },
-    settings = {
-        rootMarkers = { ".git/" },
-        languages = {
-            python = {
-                { formatCommand = "black --quiet -", formatStdin = true },
-            },
-        },
-    },
-})
+-- nvim_lsp.pyright.setup({
+--     on_attach = on_attach,
+--     on_new_config = function(config, root_dir)
+--         local env = vim.trim(vim.fn.system('cd "' .. root_dir .. '"; poetry env info -p 2>/dev/null'))
+--         if string.len(env) > 0 then
+--             config.settings.python.pythonPath = env .. "/bin/python"
+--         end
+--     end,
+-- })
 
 nvim_lsp.lua_ls.setup({
     on_attach = on_attach,
@@ -194,4 +148,32 @@ nvim_lsp.lua_ls.setup({
             },
         },
     },
+})
+
+local null_ls = require("null-ls")
+local nulldiag = null_ls.builtins.diagnostics
+
+-- lsp is built in to neovim but the config is external
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+null_ls.setup({
+    debug = true,
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.black.with({
+            extra_args = { "--line-length=120 " },
+        }),
+        null_ls.builtins.diagnostics.eslint,
+    },
+    on_attach = function(client, pbufnr)
+        if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = pbufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = augroup,
+                buffer = pbufnr,
+                callback = function()
+                    vim.lsp.buf.format()
+                end,
+            })
+        end
+    end,
 })
