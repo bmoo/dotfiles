@@ -128,7 +128,7 @@ function M.setup()
 			},
 		},
 
-		"jose-elias-alvarez/null-ls.nvim",
+		"nvimtools/none-ls.nvim",
 		"f-person/auto-dark-mode.nvim",
 		"folke/which-key.nvim",
 		{
