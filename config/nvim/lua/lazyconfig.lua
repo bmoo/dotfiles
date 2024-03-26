@@ -66,7 +66,7 @@ function M.setup()
 		"mfussenegger/nvim-dap",
 		"leoluz/nvim-dap-go",
 		"mfussenegger/nvim-dap-python",
-		"rcarriga/nvim-dap-ui",
+		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 		"theHamsta/nvim-dap-virtual-text",
 		"nvim-telescope/telescope-dap.nvim",
 		{
