@@ -9,7 +9,6 @@ require("mason").setup({
 require("mason-lspconfig").setup({
     ensure_installed = {
         "tailwindcss",
-        "tsserver",
         "lua_ls",
         "gopls",
         "efm",
@@ -90,9 +89,7 @@ null_ls.setup({
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.diagnostics.pylint,
-        nulldiag.flake8.with({
-            extra_args = { "--ignore", "e501", "--select", "e126" },
-        }),
+        null_ls.builtins.diagnostics.ruff,
         nulldiag.mypy,
         --         nulldiag.pylint.with({
         --             extra_args = { "--disable", "c0114,c0115,c0116,c0301,w1203,w0703" },
@@ -147,8 +144,7 @@ nvim_lsp.tflint.setup({
 })
 
 local servers = {
-    "pyright",
-    "tsserver",
+    "ts_ls",
     "tailwindcss",
     "gopls",
     "terraformls",
@@ -174,6 +170,15 @@ nvim_lsp.efm.setup({
             },
         },
     },
+})
+
+nvim_lsp.pyright.setup({
+    on_attach = on_attach,
+    settings = {
+        python = {
+            pythonPath = vim.g.python3_host_prog
+        }
+    }
 })
 
 nvim_lsp.lua_ls.setup({

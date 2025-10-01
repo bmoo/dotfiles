@@ -17,12 +17,23 @@ vim.o.relativenumber = true
 vim.o.syntax = "ON"
 vim.o.termguicolors = true
 vim.o.mouse = "a"
+vim.o.timeout = true
+vim.o.timeoutlen = 300
 
 -- tabs
 vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
+-- Ensure PATH includes Homebrew + Mason shims
+vim.env.PATH = table.concat({
+    "/opt/homebrew/bin",
+    vim.fn.expand("~/.local/share/nvim/mason/bin"),
+    vim.env.PATH,
+}, ":")
+
+-- python version
+vim.g.python3_host_prog = vim.fn.trim(vim.fn.system("which python3"))
 -- color scheme
 local ayu = require("ayu")
 ayu.setup({
