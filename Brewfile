@@ -111,14 +111,11 @@ cask "kitty"
 
 mas "1Blocker", id: 1365531024
 mas "DaisyDisk", id: 411643860
-mas "Dark Mode for Safari", id: 1397180934
 mas "EyeFriendly", id: 587769990
-mas "Fantastical", id: 975937182
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "OmniGraffle", id: 1142578753
 mas "Pages", id: 409201541
 mas "StopTheMadness", id: 1376402589
 mas "Super Agent", id: 1568262835
-mas "Vinegar", id: 1591303229
 mas "Xcode", id: 497799835

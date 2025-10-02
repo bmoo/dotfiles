@@ -9,8 +9,6 @@ local function normal_keymap()
         { "<leader>bf", "<Cmd>bfirst<Cr>",                                        desc = "First Buffer" },
         { "<leader>bp", "<Cmd>bprevious<Cr>",                                     desc = "Previous Buffer" },
         { "<leader>bn", "<Cmd>bnext<Cr>",                                         desc = "Next Buffer" },
-        { "<leader>bF", "<Cmd>BDelete! this<Cr>",                                 desc = "Force Close Buffer" },
-        { "<leader>bD", "<Cmd>BWipeout other<Cr>",                                desc = "Delete All Buffers" },
         { "<leader>bb", "<Cmd>BufferLinePick<Cr>",                                desc = "Pick a Buffer" },
 
         { "<leader>r",  group = "Refactor" },
