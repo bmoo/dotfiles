@@ -27,6 +27,8 @@ local function normal_keymap()
         { "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<cr>",                 desc = "Go to Declarations" },
         { "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<cr>",                  desc = "Go to Definition" },
         { "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<cr>",              desc = "Go to Implementation" },
+
+        { "<leader>q", "<cmd>lclose<bar>cclose<cr>", desc = "Close loclist/quickfix"},
     })
 end
 
