@@ -1,6 +1,8 @@
+local shared = require("sharedlsp")
+
 vim.lsp.config("gopls", {
-    on_attach = on_attach,
-    capabilities = capabilities,
+    on_attach = shared.on_attach,
+    capabilities = shared.capabilities,
     settings = {
         gopls = {
             usePlaceholders = true,

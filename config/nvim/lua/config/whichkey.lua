@@ -26,7 +26,7 @@ local function normal_keymap()
         { "<leader>g",  group = "LSP" },
         { "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<cr>",                 desc = "Go to Declarations" },
         { "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<cr>",                  desc = "Go to Definition" },
-        { "<leader>gD", "<cmd>lua vim.lsp.buf.implementation()<cr>",              desc = "Go to Implementation" },
+        { "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<cr>",              desc = "Go to Implementation" },
     })
 end
 

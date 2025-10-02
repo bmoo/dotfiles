@@ -1,6 +1,8 @@
+local shared = require("sharedlsp")
+
 vim.lsp.config('lua_ls', {
-  on_attach = on_attach,
-  capabilities = capabilities,
+  on_attach = shared.on_attach,
+  capabilities = shared.capabilities,
   settings = {
   Lua = {
 	  runtime = { version = 'LuaJIT' },

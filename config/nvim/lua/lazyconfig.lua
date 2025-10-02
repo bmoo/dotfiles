@@ -41,7 +41,7 @@ function M.setup()
 
         -- editor help
         "windwp/nvim-autopairs",
-        "windwp/nvim-ts-autotag",
+        { "windwp/nvim-ts-autotag", event = "VeryLazy" },
         -- indent blank lines
         "lukas-reineke/indent-blankline.nvim",
         -- lsp-aware rename
@@ -121,17 +121,48 @@ function M.setup()
                 },
             },
         },
-
-        "nvimtools/none-ls.nvim",
-        "nvimtools/none-ls-extras.nvim",
         {
-            "jay-babu/mason-null-ls.nvim",
-            dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
-            opts = {
-                ensure_installed = { "eslint_d", "ruff", "stylua" },
-                automatic_installation = true,
-            },
-        },
+  "stevearc/conform.nvim",
+  opts = {
+    -- map filetypes to the external tools you want
+    formatters_by_ft = {
+      lua    = { "stylua" },
+      python = { "ruff_format", "black" },   -- ruff_format first, black as fallback
+      go     = { "goimports", "gofmt" },
+      json   = { "jq" },
+      yaml   = { "yamlfmt" },
+      -- add more as you need: javascript = { "prettier" }, etc.
+    },
+    -- on save: run the above; if none configured for the filetype,
+    -- fall back to LSP's formatting (if the server supports it)
+    format_on_save = function(bufnr)
+      return { timeout_ms = 2000, lsp_fallback = true }
+    end,
+    -- nice default; keeps your cursor/extmarks stable
+    notify_on_error = true,
+  },
+},
+{
+  "mfussenegger/nvim-lint",
+  config = function()
+    local lint = require("lint")
+
+    lint.linters_by_ft = {
+      python = { "ruff" }, -- fast diagnostics from Ruff
+      lua    = { "luacheck" }, -- optional if you want lua linting
+      go     = { "golangci_lint" }, -- optional; only if you use it
+      -- js/ts example: javascript = { "eslint_d" }, typescript = { "eslint_d" },
+    }
+
+    -- run linters on write and when you switch buffers
+    local au = vim.api.nvim_create_augroup("NvimLint", { clear = true })
+    vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave" }, {
+      group = au,
+      callback = function() require("lint").try_lint() end,
+    })
+  end,
+},
+
         "f-person/auto-dark-mode.nvim",
         "folke/which-key.nvim",
         {
