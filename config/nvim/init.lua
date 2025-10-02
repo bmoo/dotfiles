@@ -3,7 +3,8 @@ vim.g.mapleader = " "
 
 require("lazyconfig").setup()
 
-require("lsp")
+require("lsp").setup()
+require("diagnostics").setup()
 require("treesitter")
 require("dapconfig")
 require("telescopeconfig")

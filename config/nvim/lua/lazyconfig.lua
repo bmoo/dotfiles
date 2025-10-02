@@ -95,8 +95,14 @@ function M.setup()
             build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
         },
         -- mason config
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
+	{
+            "mason-org/mason-lspconfig.nvim",
+            opts = {},
+            dependencies = {
+                { "mason-org/mason.nvim", opts = {} },
+                "neovim/nvim-lspconfig",
+            },
+        },
         -- buffer line
         {
             "akinsho/bufferline.nvim",
