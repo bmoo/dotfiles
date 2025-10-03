@@ -1,5 +1,9 @@
 return {{
     "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" }, -- Load on commands
+    keys = {
+        { "<leader>t", "<cmd>NvimTreeToggle<cr>", desc = "File Tree" },
+    },
     dependencies = {'nvim-tree/nvim-web-devicons'},
     opts = {
         sync_root_with_cwd = true,

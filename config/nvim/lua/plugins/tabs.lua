@@ -1,6 +1,7 @@
 return {{
     'akinsho/bufferline.nvim',
     version = "*",
+    event = "VeryLazy", -- Load bufferline slightly after startup
     dependencies = 'nvim-tree/nvim-web-devicons',
     opts = {
         options = {

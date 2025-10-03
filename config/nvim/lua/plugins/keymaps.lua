@@ -1,5 +1,6 @@
 return {
     "folke/which-key.nvim",
+    event = "VeryLazy", -- Load after startup
     opts = function()
         local whichkey = require("which-key")
 
@@ -75,9 +76,26 @@ return {
             "<cmd>lua vim.lsp.buf.implementation()<cr>",
             desc = "Go to Implementation"
         }, {
+            "<leader>l",
+            group = "LSP Actions"
+        }, {
+            "<leader>lh",
+            desc = "Toggle Inlay Hints"
+        }, {
+            "<leader>ll",
+            desc = "Run Code Lens"
+        }, {
             "<leader>q",
             "<cmd>lclose<bar>cclose<cr>",
             desc = "Close loclist/quickfix"
+        }, {
+            "[d",
+            "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+            desc = "Previous Diagnostic"
+        }, {
+            "]d",
+            "<cmd>lua vim.diagnostic.goto_next()<cr>",
+            desc = "Next Diagnostic"
         }})
 
     end

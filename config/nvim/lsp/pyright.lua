@@ -10,6 +10,13 @@ vim.lsp.config("pyright", {
 			analysis = {
 				typeCheckingMode = "basic", -- or 'strict'
 				autoImportCompletions = true,
+				-- Enable inlay hints (Pyright/Pylance feature)
+				inlayHints = {
+					variableTypes = true,
+					functionReturnTypes = true,
+					callArgumentNames = true,
+					pytestParameters = true,
+				},
 			},
 		},
 	},

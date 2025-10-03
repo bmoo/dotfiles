@@ -1,5 +1,6 @@
 return   {
     "goolord/alpha-nvim",
+    event = "VimEnter", -- Load when Vim starts (start screen needs to be early)
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       local startify = require("alpha.themes.startify")

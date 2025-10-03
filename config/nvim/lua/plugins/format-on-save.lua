@@ -1,5 +1,7 @@
 return {
     "stevearc/conform.nvim",
+    event = { "BufWritePre" }, -- Load before buffer write for format-on-save
+    cmd = { "ConformInfo" }, -- Also load on command
     opts = {
         -- map filetypes to the external tools you want
         formatters_by_ft = {
