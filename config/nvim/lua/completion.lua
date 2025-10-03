@@ -8,6 +8,7 @@ function M.setup()
         completion = {
             keyword_length = 3
         },
+        experimental = { ghost_text = true },
         performance = {
             debounce = 30
         },
@@ -29,18 +30,11 @@ function M.setup()
             ["<c-space>"] = cmp.mapping.complete()
         },
         sources = cmp.config.sources({
-            {
-                name = "nvim_lsp"
-            },
-            -- auto complete neovim api calls
-            {
-                name = "nvim_lua"
-            },
-            {
-                name = "luasnip"
-            },
-            native_menu = false,
-            ghost_text = true
+            { name = "nvim_lsp" },
+            { name = "nvim_lsp_signature_help" },
+            { name = "luasnip" },
+            { name = "path" },
+            { name = "buffer" },
         }),
         formatting = {
             format = lspkind.cmp_format({

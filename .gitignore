@@ -7,3 +7,4 @@ zsh.after/gh.zsh
 config/nvim/lazy-lock.json
 Brewfile.lock.json
 __MACOSX/
+*.zip
