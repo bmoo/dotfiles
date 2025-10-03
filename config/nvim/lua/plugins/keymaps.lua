@@ -29,11 +29,13 @@ return {
         }, {
             "<leader>r",
             group = "Refactor"
-        }, {
+        },
+        {
             "<leader>rn",
             "<Cmd>IncRename<Cr>",
             desc = "Rename"
-        }, -- Telescope
+        },
+        -- Telescope
         {
             "<leader>f",
             group = "Telescope"
