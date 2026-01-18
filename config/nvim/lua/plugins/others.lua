@@ -35,14 +35,13 @@ return {
 	},
 	{
 		"mfussenegger/nvim-lint",
-		lazy = false, -- Load immediately so mason-nvim-lint can access it
-		priority = 85, -- Load after mason but before mason-nvim-lint
+		event = { "BufReadPost", "BufNewFile", "BufWritePost" }, -- Load when opening files (after mason-tool-installer runs)
 		config = function()
 			local lint = require("lint")
 
 			lint.linters_by_ft = {
 				python = { "ruff" }, -- fast diagnostics from Ruff
-				go = { "golangci_lint" }, -- Go linting via golangci-lint (auto-installed by mason-nvim-lint)
+				go = { "golangci_lint" }, -- Go linting via golangci-lint (auto-installed by mason-tool-installer)
 				--            lua = {"luacheck"}, -- optional if you want lua linting
 				-- js/ts example: javascript = { "eslint_d" }, typescript = { "eslint_d" },
 			}
@@ -54,7 +53,10 @@ return {
 			vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave" }, {
 				group = au,
 				callback = function()
-					require("lint").try_lint()
+					-- Only lint if linters are available (silently skip if not installed yet)
+					pcall(function()
+						require("lint").try_lint()
+					end)
 				end,
 			})
 		end,
