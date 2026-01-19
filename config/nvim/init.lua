@@ -21,7 +21,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.scrolloff = 6
 vim.opt.sidescrolloff = 6
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.fillchars = { eob = " ", fold = " ", foldopen = "", foldclose = "" }
 
 -- Performance & typing
