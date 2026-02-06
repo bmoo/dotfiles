@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+MLX="$HOME/.venv/bin/mlx_whisper"
+MODEL="mlx-community/whisper-large-v3-turbo"
+
+yt-dlp -f bestaudio --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" \
+  --exec '"'"$MLX"'" {} --model "'"$MODEL"'" --output-format txt --temperature 0' "$1"
+
+rm *.mp3
