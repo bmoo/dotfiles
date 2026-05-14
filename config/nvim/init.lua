@@ -15,6 +15,11 @@ vim.o.shiftwidth = 4
 
 -- UI/UX
 vim.opt.termguicolors = true
+-- Pin background early so nvim's built-in OSC 11 auto-detect doesn't fire
+-- and get a lying answer from tmux (which fabricates rgb:ffff/ffff/ffff for
+-- the screen-256color default). The appearance plugin will upgrade this
+-- when a real terminal responds to a tmux-wrapped OSC 11 query.
+vim.opt.background = "dark"
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
 vim.opt.splitbelow = true
