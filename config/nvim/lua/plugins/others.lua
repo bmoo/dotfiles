@@ -76,7 +76,8 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		event = { "BufReadPost", "BufNewFile" }, -- Load when opening files
+		branch = "main",
+		lazy = false, -- main branch does not support lazy-loading
 		build = ":TSUpdate",
 	},
 	{

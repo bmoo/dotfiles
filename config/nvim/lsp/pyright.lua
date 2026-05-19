@@ -1,7 +1,7 @@
 -- pyright
 local shared = require("sharedlsp")
 
-vim.lsp.config("pyright", {
+return {
 	on_attach = shared.on_attach,
 	capabilities = shared.capabilities,
 	settings = {
@@ -20,4 +20,4 @@ vim.lsp.config("pyright", {
 			},
 		},
 	},
-})
+}

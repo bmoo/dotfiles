@@ -12,8 +12,10 @@ function M.on_attach(client, bufnr)
 	end
 
 	-- Basic LSP navigation
-	map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
-	map("n", "gr", vim.lsp.buf.references, "Find References")
+	map("n", "<leader>gd", function() require("telescope.builtin").lsp_definitions() end, "Go to Definition")
+	map("n", "<leader>gr", function() require("telescope.builtin").lsp_references() end, "Find References")
+	map("n", "<leader>gi", function() require("telescope.builtin").lsp_implementations() end, "Go to Implementation")
+	map("n", "<leader>gy", function() require("telescope.builtin").lsp_type_definitions() end, "Go to Type Definition")
 
 	-- Enable inlay hints if supported
 	if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
@@ -24,14 +26,9 @@ function M.on_attach(client, bufnr)
 		end, "Toggle Inlay Hints")
 	end
 
-	-- Enable and refresh code lens if supported
+	-- Enable code lens if supported (auto-refreshes on buffer changes)
 	if client.server_capabilities.codeLensProvider then
-		vim.lsp.codelens.refresh()
-		-- Auto-refresh code lens on certain events
-		vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-			buffer = bufnr,
-			callback = vim.lsp.codelens.refresh,
-		})
+		vim.lsp.codelens.enable(true, { bufnr = bufnr })
 		-- Keymap to run code lens action
 		map("n", "<leader>ll", vim.lsp.codelens.run, "Run Code Lens")
 	end

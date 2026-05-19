@@ -22,6 +22,7 @@ vim.opt.splitright = true
 vim.opt.scrolloff = 6
 vim.opt.sidescrolloff = 6
 vim.opt.wrap = true
+vim.opt.foldlevelstart = 99
 vim.opt.fillchars = { eob = " ", fold = " ", foldopen = "", foldclose = "" }
 
 -- Performance & typing
@@ -39,8 +40,13 @@ vim.g.python3_host_prog = vim.fn.trim(vim.fn.system("which python3"))
 -- lazy computes a dependency graph and loads all plugins
 require("config.lazy").setup()
 
+-- colorscheme + terminal light/dark sync
+require("appearance").setup()
+
 require("diagnostics").setup()
 require("completion").setup()
 require("treesitter")
 require("dapconfig")
 
+-- LSP servers not managed by mason
+vim.lsp.enable("sourcekit")

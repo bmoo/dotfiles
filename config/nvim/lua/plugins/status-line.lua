@@ -1,7 +1,7 @@
 return {{
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy", -- Load status line slightly after startup
-    dependencies = {"nvim-tree/nvim-web-devicons", "Shatur/neovim-ayu", "SmiteshP/nvim-navic"},
+    dependencies = {"nvim-tree/nvim-web-devicons", "SmiteshP/nvim-navic"},
     opts = function()
       local has_navic, navic = pcall(require, "nvim-navic")
 

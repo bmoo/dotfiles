@@ -1,6 +1,6 @@
 local shared = require("sharedlsp")
 
-vim.lsp.config("lua_ls", {
+return {
 	on_attach = shared.on_attach,
 	capabilities = shared.capabilities,
 	settings = {
@@ -26,4 +26,4 @@ vim.lsp.config("lua_ls", {
 			},
 		},
 	},
-})
+}
