@@ -8,3 +8,4 @@ config/nvim/lazy-lock.json
 Brewfile.lock.json
 __MACOSX/
 *.zip
+.claude/settings.local.json

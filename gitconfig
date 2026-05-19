@@ -114,7 +114,7 @@
   autocrlf = false
   editor = nvim
   excludesfile = ~/.yadr/git/gitignore
-	attributesfile = /Users/bradmoore/.gitattributes
+  attributesfile = ~/.gitattributes
   pager = "diff-so-fancy | less -RFX"
 [advice]
   statusHints = false
