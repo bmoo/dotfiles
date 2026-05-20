@@ -68,8 +68,8 @@ The Dotbot framework handling installation. Don't modify directly—it's pinned 
 
 ### Git Aliases (from gitconfig)
 ```bash
-git auto              # Rebase with autosquash against origin/master
-git rim               # Interactive rebase against origin/master
+git auto              # Rebase with autosquash against origin/main
+git rim               # Interactive rebase against origin/main
 git dauto, git rod    # Various rebasing shortcuts
 git autofixup         # Intelligent autosquash for fixing commits
 ```
