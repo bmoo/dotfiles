@@ -35,6 +35,23 @@ vim.opt.updatetime = 200
 vim.opt.timeoutlen = 300
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+-- Auto-reload files changed on disk
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  pattern = "*",
+  callback = function()
+    vim.notify("File changed on disk, buffer reloaded", vim.log.levels.INFO)
+  end,
+})
+
 -- Search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
