@@ -2,8 +2,8 @@ local M = {}
 
 M.capabilities = (function()
 	local c = vim.lsp.protocol.make_client_capabilities()
-	local ok, cmp = pcall(require, "cmp_nvim_lsp")
-	return ok and cmp.default_capabilities(c) or c
+	local ok, blink = pcall(require, "blink.cmp")
+	return ok and blink.get_lsp_capabilities(c) or c
 end)()
 
 function M.on_attach(client, bufnr)
@@ -33,32 +33,7 @@ function M.on_attach(client, bufnr)
 		map("n", "<leader>ll", vim.lsp.codelens.run, "Run Code Lens")
 	end
 
-	vim.keymap.set({ "n", "x" }, "<leader>re", function()
-		return require("refactoring").refactor("Extract Function")
-	end, { expr = true, desc = "Extract Function" })
-	vim.keymap.set({ "n", "x" }, "<leader>rf", function()
-		return require("refactoring").refactor("Extract Function To File")
-	end, { expr = true, desc = "Extract Function to File" })
-	vim.keymap.set({ "n", "x" }, "<leader>rv", function()
-		return require("refactoring").refactor("Extract Variable")
-	end, { expr = true, desc = "Extract Variable" })
-	vim.keymap.set({ "n", "x" }, "<leader>rI", function()
-		return require("refactoring").refactor("Inline Function")
-	end, { expr = true, desc = "Inline Function" })
-	vim.keymap.set({ "n", "x" }, "<leader>ri", function()
-		return require("refactoring").refactor("Inline Variable")
-	end, { expr = true, desc = "Inline Variable" })
-
-	vim.keymap.set({ "n", "x" }, "<leader>rbb", function()
-		return require("refactoring").refactor("Extract Block")
-	end, { expr = true, desc = "Extract Block" })
-	vim.keymap.set({ "n", "x" }, "<leader>rbf", function()
-		return require("refactoring").refactor("Extract Block To File")
-	end, { expr = true, desc = "Extract Block to File" })
-
-	-- TODO can this reference be cached?
-	local navic = require("nvim-navic")
-	navic.attach(client, bufnr)
+	require("nvim-navic").attach(client, bufnr)
 end
 
 return M

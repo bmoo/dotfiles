@@ -1,8 +1,4 @@
-local shared = require("sharedlsp")
-
 return {
-	on_attach = shared.on_attach,
-	capabilities = shared.capabilities,
 	settings = {
 		Lua = {
 			runtime = { version = "LuaJIT" },
@@ -15,7 +11,6 @@ return {
 				library = vim.api.nvim_get_runtime_file("", true),
 			},
 			telemetry = { enable = false },
-			-- Enable inlay hints
 			hint = {
 				enable = true,
 				arrayIndex = "Auto",

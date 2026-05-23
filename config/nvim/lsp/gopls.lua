@@ -1,14 +1,9 @@
-local shared = require("sharedlsp")
-
 return {
-    on_attach = shared.on_attach,
-    capabilities = shared.capabilities,
     settings = {
         gopls = {
             usePlaceholders = true,
             analyses = { unusedparams = true, unreachable = true },
             staticcheck = true,
-            -- Enable inlay hints
             hints = {
                 assignVariableTypes = true,
                 compositeLiteralFields = true,

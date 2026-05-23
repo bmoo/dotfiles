@@ -1,25 +1,58 @@
--- lua/plugins/completion.lua
 return {
 	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter", -- Load completion when entering insert mode
-		opts = function(_, opts)
-			opts.sources = opts.sources or {}
-			table.insert(opts.sources, {
-				name = "lazydev",
-				group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-			})
-		end,
+		"saghen/blink.cmp",
+		event = "InsertEnter",
+		version = "1.*",
 		dependencies = {
-			"L3MON4D3/LuaSnip",
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"folke/lazydev.nvim",
+			"saghen/blink.compat",
+		},
+		---@module "blink.cmp"
+		---@type blink.cmp.Config
+		opts = {
+			keymap = {
+				-- Default preset already matches the prior cmp bindings for
+				-- <C-n>/<C-p>/<C-y>/<C-e>/<C-space>/<C-f>. The one mismatch
+				-- is doc-scroll-up, which the default preset binds to <C-b>;
+				-- preserve <C-d> for muscle memory.
+				preset = "default",
+				["<C-d>"] = { "scroll_documentation_up", "fallback" },
+			},
+			appearance = { nerd_font_variant = "mono" },
+			completion = {
+				keyword = { range = "full" },
+				list = {
+					selection = { preselect = false, auto_insert = false },
+				},
+				menu = { auto_show = true },
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 200,
+				},
+				ghost_text = { enabled = true },
+			},
+			signature = { enabled = true },
+			sources = {
+				default = { "lsp", "path", "buffer", "lazydev" },
+				per_filetype = {
+					sql = { "dadbod", "buffer" },
+					mysql = { "dadbod", "buffer" },
+					plsql = { "dadbod", "buffer" },
+				},
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
+					dadbod = {
+						name = "Dadbod",
+						module = "blink.compat.source",
+						opts = { source_name = "vim-dadbod-completion" },
+					},
+				},
+			},
+			fuzzy = { implementation = "prefer_rust_with_warning" },
 		},
 	},
 }
-

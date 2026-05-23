@@ -63,14 +63,6 @@ return {
 	},
 	-- Note: auto-dark-mode.nvim is in appearance.lua, removing duplicate
 	{
-		"saadparwaiz1/cmp_luasnip",
-		lazy = true, -- Loaded via nvim-cmp
-	},
-	{
-		"onsails/lspkind.nvim",
-		lazy = true, -- Loaded via nvim-cmp
-	},
-	{
 		"christoomey/vim-tmux-navigator",
 		lazy = false, -- Keep loaded for seamless navigation
 	},
