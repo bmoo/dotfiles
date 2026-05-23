@@ -8,7 +8,9 @@ end)()
 
 function M.on_attach(client, bufnr)
 	require("keymaps").attach_lsp(client, bufnr)
-	require("nvim-navic").attach(client, bufnr)
+	if client.server_capabilities.documentSymbolProvider then
+		require("nvim-navic").attach(client, bufnr)
+	end
 end
 
 return M
