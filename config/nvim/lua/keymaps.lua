@@ -19,15 +19,12 @@ function M.setup()
 	map("n", "<leader>bn", "<cmd>bnext<cr>",         "Next Buffer")
 	map("n", "<leader>bb", "<cmd>BufferPick<cr>",    "Pick a Buffer")
 
-	-- Telescope
-	local tb = function(name) return function() require("telescope.builtin")[name]() end end
-	map("n", "<leader>ff", tb("find_files"), "Find Files")
-	map("n", "<leader>fg", tb("live_grep"),  "Live Grep")
-	map("n", "<leader>fb", tb("buffers"),    "Find Buffer")
-	map("n", "<leader>fh", tb("help_tags"),  "Find Help")
-
-	-- File tree
-	map("n", "<leader>t", "<cmd>NvimTreeToggle<cr>", "File Tree")
+	-- Find (snacks.picker)
+	local pick = function(name) return function() Snacks.picker[name]() end end
+	map("n", "<leader>ff", pick("files"),   "Find Files")
+	map("n", "<leader>fg", pick("grep"),    "Live Grep")
+	map("n", "<leader>fb", pick("buffers"), "Find Buffer")
+	map("n", "<leader>fh", pick("help"),    "Find Help")
 
 	-- Diagnostics navigation
 	map("n", "[d", function() vim.diagnostic.goto_prev() end, "Previous Diagnostic")
@@ -36,7 +33,7 @@ function M.setup()
 	-- Quickfix / loclist
 	map("n", "<leader>q", "<cmd>lclose<bar>cclose<cr>", "Close loclist/quickfix")
 
-	-- IncRename (built-in rename; plugin-driven refactors live in keymaps.refactor)
+	-- IncRename (built-in rename; plugin-driven refactors live with the plugin)
 	map("n", "<leader>rn", "<cmd>IncRename<cr>", "Rename")
 end
 

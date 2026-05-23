@@ -67,15 +67,24 @@ require("appearance").setup()
 
 require("diagnostics").setup()
 require("treesitter")
-require("dapconfig")
 require("keymaps").setup()
+require("lsp").setup()
 
--- Global LSP defaults — per-language config in lsp/<server>.lua merges on top.
--- mason-lspconfig auto-enables servers in its ensure_installed list;
--- non-mason servers (e.g. sourcekit) need an explicit vim.lsp.enable.
-local sharedlsp = require("sharedlsp")
-vim.lsp.config("*", {
-	capabilities = sharedlsp.capabilities,
-	on_attach = sharedlsp.on_attach,
+-- Open file tree (left) and Claude (right) on startup
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    local argc = vim.fn.argc()
+    local opened_with_dir = argc == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1
+    if argc > 0 and not opened_with_dir then
+      return
+    end
+    vim.schedule(function()
+      require("lazy").load({ plugins = { "neo-tree.nvim", "claudecode.nvim" } })
+      vim.cmd("Neotree show")
+      local theme = vim.o.background == "light" and "light" or "dark"
+      -- ClaudeCode opens on the right and keeps focus; the terminal lands
+      -- in terminal-insert so you can type immediately.
+      vim.cmd("ClaudeCode --settings '{\"theme\":\"" .. theme .. "\"}'")
+    end)
+  end,
 })
-vim.lsp.enable("sourcekit")

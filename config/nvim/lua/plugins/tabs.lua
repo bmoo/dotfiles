@@ -24,7 +24,7 @@ return {{
                 },
             },
             sidebar_filetypes = {
-                NvimTree = { event = "BufWinLeave", align = "left" },
+                ["neo-tree"] = { event = "BufWinLeave", align = "left" },
             },
         })
 

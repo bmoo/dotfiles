@@ -1,3 +1,5 @@
+-- Buffer-local mappings in markdown notes mirror the LSP code-nav keys
+-- (<leader>gd, <leader>gr) so the same muscle memory works in notes and code.
 return {
     "obsidian-nvim/obsidian.nvim",
     version = "*",
@@ -22,7 +24,14 @@ return {
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "markdown",
             callback = function(ev)
-                require("keymaps").attach_markdown(ev.buf)
+                local bufnr = ev.buf
+                vim.keymap.set("n", "gf", function()
+                    return require("obsidian").util.gf_passthrough()
+                end, { noremap = false, expr = true, buffer = bufnr })
+                vim.keymap.set("n", "<leader>gd", "<cmd>Obsidian follow_link<cr>",
+                    { buffer = bufnr, desc = "Follow Wikilink" })
+                vim.keymap.set("n", "<leader>gr", "<cmd>Obsidian backlinks<cr>",
+                    { buffer = bufnr, desc = "Backlinks" })
             end,
         })
     end,

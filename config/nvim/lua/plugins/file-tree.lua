@@ -1,41 +1,37 @@
 return {{
-    "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" }, -- Load on commands
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    cmd = "Neotree",
     keys = {
-        { "<leader>t", "<cmd>NvimTreeToggle<cr>", desc = "File Tree" },
+        { "<leader>t", "<cmd>Neotree toggle<cr>", desc = "File Tree" },
     },
-    dependencies = {'nvim-tree/nvim-web-devicons'},
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons",
+        "MunifTanjim/nui.nvim",
+    },
     opts = {
-        sync_root_with_cwd = true,
-        sort_by = "case_sensitive",
-        on_attach = function(bufnr)
-            local api = require("nvim-tree.api")
-            local function opts(desc)
-                return {
-                    desc = "nvim-tree: " .. desc,
-                    buffer = bufnr,
-                    noremap = true,
-                    silent = true,
-                    nowait = true
-                }
-            end
-
-            api.config.mappings.default_on_attach(bufnr)
-
-            vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
-            vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
-            vim.keymap.set("n", "s", api.node.open.horizontal, opts("Open: Horizontal Split"))
-        end,
-        view = {
-            adaptive_size = true
+        close_if_last_window = true,
+        filesystem = {
+            follow_current_file = { enabled = true },
+            use_libuv_file_watcher = true,
+            filtered_items = {
+                visible = true,
+                hide_dotfiles = false,
+                hide_gitignored = false,
+            },
         },
-        renderer = {
-            group_empty = true,
-            highlight_opened_files = "all",
-            symlink_destination = false
+        window = {
+            width = 30,
+            mappings = {
+                ["u"] = "navigate_up",
+                ["v"] = "open_vsplit",
+                ["s"] = "open_split",
+            },
         },
-        filters = {
-            dotfiles = false
-        }
-    }
+        default_component_configs = {
+            indent = { with_markers = true },
+            git_status = { symbols = { unstaged = "", staged = "" } },
+        },
+    },
 }}
