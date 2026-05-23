@@ -1,10 +1,12 @@
+require("keymap").register({
+    { "<leader>t", "<cmd>Neotree toggle<cr>", desc = "File Tree", lazy = true, plugin = "neo-tree" },
+})
+
 return {{
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     cmd = "Neotree",
-    keys = {
-        { "<leader>t", "<cmd>Neotree toggle<cr>", desc = "File Tree" },
-    },
+    keys = require("keymap").lazy_for("neo-tree"),
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",

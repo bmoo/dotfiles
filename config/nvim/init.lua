@@ -67,8 +67,19 @@ require("appearance").setup()
 
 require("diagnostics").setup()
 require("treesitter")
-require("keymaps").setup()
+require("nav_keys").setup()
 require("lsp").setup()
+
+require("keymap").group({
+  ["<leader>a"] = "AI/Claude Code",
+  ["<leader>b"] = "Buffer",
+  ["<leader>f"] = "Find",
+  ["<leader>g"] = "LSP",
+  ["<leader>G"] = "Git",
+  ["<leader>l"] = "LSP Actions",
+  ["<leader>r"] = "Refactor",
+})
+require("keymap").finalize()
 
 -- Open file tree (left) and Claude (right) on startup
 vim.api.nvim_create_autocmd("VimEnter", {

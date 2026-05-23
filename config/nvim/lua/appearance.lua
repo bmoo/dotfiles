@@ -64,8 +64,11 @@ function M.setup()
     vim.api.nvim_create_user_command("ToggleBackground", function()
         vim.o.background = vim.o.background == "dark" and "light" or "dark"
     end, {})
-    vim.keymap.set("n", "<leader>bg", "<cmd>ToggleBackground<cr>",
-        { desc = "Toggle light/dark background" })
 end
+
+require("keymap").register({
+    { "<leader>bg", "<cmd>ToggleBackground<cr>",
+        desc = "Toggle light/dark background", group = "buffer" },
+})
 
 return M
