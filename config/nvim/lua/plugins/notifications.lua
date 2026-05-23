@@ -3,6 +3,9 @@ return {
     event = "VeryLazy", -- Load after startup
     dependencies = {"MunifTanjim/nui.nvim", "folke/snacks.nvim"},
     opts = {
+        -- Let snacks.notifier own vim.notify; noice would otherwise wrap it
+        -- and the two fight on startup.
+        notify = { enabled = false },
         messages = {
             enabled = true,
             view = "notify", -- default view for messages

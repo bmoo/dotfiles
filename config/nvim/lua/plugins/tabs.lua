@@ -24,7 +24,7 @@ return {{
                 },
             },
             sidebar_filetypes = {
-                NvimTree = { event = "BufWinLeave", text = function() return vim.fn.getcwd() end, align = "left" },
+                NvimTree = { event = "BufWinLeave", align = "left" },
             },
         })
 
