@@ -56,10 +56,6 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- Double-Esc exits terminal-mode; single Esc still passes through
--- to TUI apps (e.g. Claude uses Esc to interrupt).
-vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
-
 -- python version
 vim.g.python3_host_prog = vim.fn.trim(vim.fn.system("which python3"))
 
@@ -72,6 +68,7 @@ require("appearance").setup()
 require("diagnostics").setup()
 require("treesitter")
 require("dapconfig")
+require("keymaps").setup()
 
 -- Global LSP defaults — per-language config in lsp/<server>.lua merges on top.
 -- mason-lspconfig auto-enables servers in its ensure_installed list;
