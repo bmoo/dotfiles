@@ -17,7 +17,7 @@ function M.setup()
 	map("n", "<leader>bf", "<cmd>bfirst<cr>",        "First Buffer")
 	map("n", "<leader>bp", "<cmd>bprevious<cr>",     "Previous Buffer")
 	map("n", "<leader>bn", "<cmd>bnext<cr>",         "Next Buffer")
-	map("n", "<leader>bb", "<cmd>BufferLinePick<cr>", "Pick a Buffer")
+	map("n", "<leader>bb", "<cmd>BufferPick<cr>",    "Pick a Buffer")
 
 	-- Telescope
 	local tb = function(name) return function() require("telescope.builtin")[name]() end end

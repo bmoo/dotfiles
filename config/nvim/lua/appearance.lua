@@ -37,8 +37,8 @@ function M.setup()
                 -- makes Neovim auto-reload the colorscheme, which fires
                 -- `ColorScheme`/`OptionSet`; those events are suppressed if
                 -- triggered from inside a (non-nested) autocmd, so plugins
-                -- like bufferline and nvim-web-devicons would miss the
-                -- reload and keep stale highlights (black bufferline glyph).
+                -- like barbar and nvim-web-devicons would miss the
+                -- reload and keep stale highlights (black tab-icon glyph).
                 -- vim.schedule runs the assignment at top level instead.
                 vim.schedule(function() vim.o.background = new_bg end)
             end
@@ -51,8 +51,8 @@ function M.setup()
     -- ColorScheme event. A manual `colorscheme` inside a (non-nested)
     -- OptionSet autocmd reloads it a *second* time, but its ColorScheme
     -- event is suppressed — so claude.lua's `highlight clear` wipes plugin
-    -- highlight groups (notably bufferline's devicon groups) without
-    -- letting the plugins rebuild them. That left a black bufferline glyph
+    -- highlight groups (notably barbar's devicon groups) without
+    -- letting the plugins rebuild them. That left a black tab-icon glyph
     -- until the next manual colorscheme change.
 
     vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {

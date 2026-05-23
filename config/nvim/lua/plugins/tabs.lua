@@ -1,25 +1,36 @@
 return {{
-    'akinsho/bufferline.nvim',
-    version = "*",
-    event = "VeryLazy", -- Load bufferline slightly after startup
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    "romgrk/barbar.nvim",
+    version = "^1.0.0",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons", "lewis6991/gitsigns.nvim" },
+    init = function()
+        vim.g.barbar_auto_setup = false
+    end,
     config = function()
-        local bufferline = require("bufferline")
+        require("barbar").setup({
+            animation = false,
+            icons = {
+                buffer_number = true, -- nvim's internal buffer id, like the old `numbers = "buffer_id"`
+                buffer_index = false,
+                filetype = { enabled = true },
+                separator = { left = "▎", right = "" },
+                modified = { button = "●" },
+                pinned = { button = "" },
+                diagnostics = {
+                    [vim.diagnostic.severity.ERROR] = { enabled = true },
+                    [vim.diagnostic.severity.WARN]  = { enabled = true },
+                    [vim.diagnostic.severity.INFO]  = { enabled = false },
+                    [vim.diagnostic.severity.HINT]  = { enabled = false },
+                },
+            },
+            sidebar_filetypes = {
+                NvimTree = { event = "BufWinLeave", text = function() return vim.fn.getcwd() end, align = "left" },
+            },
+        })
 
-        local options = {
-            numbers = "buffer_id",
-            offsets = {{
-                filetype = "NvimTree",
-                text = function() return vim.fn.getcwd() end,
-                highlight = "Directory",
-                text_align = "left",
-            }},
-            diagnostics = "nvim_lsp",
-        }
-
-        -- Read the live `claude` palette. The selected buffer sits on the
-        -- editor background in coral; every other tab recedes into a gray
-        -- bar. Reading from the colorscheme means this tracks light/dark.
+        -- Pull the palette live from the active colorscheme so light/dark
+        -- flips track. Current tab sits on the editor bg in coral; every
+        -- other tab recedes into the gray bar.
         local function build()
             local function get(name)
                 return vim.api.nvim_get_hl(0, { name = name, link = false })
@@ -35,54 +46,42 @@ return {{
             local modified = hex(get("DiagnosticWarn").fg)
 
             return {
-                fill                  = { bg = recessed },
-                background            = { fg = dim,      bg = recessed },
-                buffer_visible        = { fg = text,     bg = recessed },
-                buffer_selected       = { fg = coral,    bg = editorbg, bold = true, italic = false },
-                numbers               = { fg = subtle,   bg = recessed },
-                numbers_visible       = { fg = dim,      bg = recessed },
-                numbers_selected      = { fg = coral,    bg = editorbg, bold = true, italic = false },
-                close_button          = { fg = subtle,   bg = recessed },
-                close_button_visible  = { fg = dim,      bg = recessed },
-                close_button_selected = { fg = coral,    bg = editorbg },
-                modified              = { fg = modified, bg = recessed },
-                modified_visible      = { fg = modified, bg = recessed },
-                modified_selected     = { fg = modified, bg = editorbg },
-                duplicate             = { fg = dim,      bg = recessed, italic = true },
-                duplicate_visible     = { fg = dim,      bg = recessed, italic = true },
-                duplicate_selected    = { fg = coral,    bg = editorbg, italic = true },
-                separator             = { fg = subtle,   bg = recessed },
-                separator_visible     = { fg = subtle,   bg = recessed },
-                separator_selected    = { fg = subtle,   bg = editorbg },
-                indicator_visible     = { fg = recessed, bg = recessed },
-                indicator_selected    = { fg = coral,    bg = editorbg },
-                offset_separator      = { fg = subtle,   bg = recessed },
-                trunc_marker          = { fg = dim,      bg = recessed },
+                BufferCurrent        = { fg = coral,    bg = editorbg, bold = true },
+                BufferCurrentNumber  = { fg = coral,    bg = editorbg, bold = true },
+                BufferCurrentMod     = { fg = modified, bg = editorbg, bold = true },
+                BufferCurrentSign    = { fg = coral,    bg = editorbg },
+                BufferCurrentTarget  = { fg = coral,    bg = editorbg, bold = true },
+                BufferCurrentIcon    = { bg = editorbg },
+
+                BufferVisible        = { fg = text,     bg = recessed },
+                BufferVisibleNumber  = { fg = dim,      bg = recessed },
+                BufferVisibleMod     = { fg = modified, bg = recessed },
+                BufferVisibleSign    = { fg = subtle,   bg = recessed },
+                BufferVisibleTarget  = { fg = text,     bg = recessed, bold = true },
+                BufferVisibleIcon    = { bg = recessed },
+
+                BufferInactive       = { fg = dim,      bg = recessed },
+                BufferInactiveNumber = { fg = subtle,   bg = recessed },
+                BufferInactiveMod    = { fg = modified, bg = recessed },
+                BufferInactiveSign   = { fg = subtle,   bg = recessed },
+                BufferInactiveTarget = { fg = text,     bg = recessed, bold = true },
+                BufferInactiveIcon   = { bg = recessed },
+
+                BufferTabpages       = { fg = subtle,   bg = recessed },
+                BufferTabpageFill    = { fg = subtle,   bg = recessed },
+                BufferOffset         = { fg = coral,    bg = recessed, bold = true },
             }
         end
 
-        -- highlights key (buffer_selected) -> group name (BufferLineBufferSelected)
-        local function group_name(key)
-            return "BufferLine" .. (key:gsub("_(%l)", string.upper):gsub("^%l", string.upper))
-        end
-
         local function apply()
-            local hls = build()
-            -- Feed bufferline its colors so it derives the filetype-icon
-            -- highlights from the same table — an icon's background then
-            -- always matches the rest of its tab.
-            bufferline.setup({ options = options, highlights = hls })
-            -- bufferline registers its groups as `default` highlights, which
-            -- a later colorscheme change cannot overwrite. Re-assert them as
-            -- hard highlights so the light/dark flip actually takes.
-            for key, spec in pairs(hls) do
-                vim.api.nvim_set_hl(0, group_name(key), spec)
+            for name, spec in pairs(build()) do
+                vim.api.nvim_set_hl(0, name, spec)
             end
         end
 
         apply()
         vim.api.nvim_create_autocmd("ColorScheme", {
-            group = vim.api.nvim_create_augroup("ClaudeBufferline", { clear = true }),
+            group = vim.api.nvim_create_augroup("ClaudeBarbar", { clear = true }),
             callback = apply,
         })
     end,
