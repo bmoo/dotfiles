@@ -82,9 +82,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
       require("lazy").load({ plugins = { "neo-tree.nvim", "claudecode.nvim" } })
       vim.cmd("Neotree show")
       local theme = vim.o.background == "light" and "light" or "dark"
-      -- ClaudeCode opens on the right and keeps focus; the terminal lands
-      -- in terminal-insert so you can type immediately.
       vim.cmd("ClaudeCode --settings '{\"theme\":\"" .. theme .. "\"}'")
+      -- claudecode lands us in terminal-insert. Drop back to normal mode so
+      -- <C-h>/<C-l> (tmux-navigator) and other normal-mode bindings work
+      -- without a manual <C-\><C-n> first. Scheduled to run after
+      -- claudecode's own startinsert fires.
+      vim.schedule(function()
+        vim.api.nvim_feedkeys(
+          vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
+          "n", false
+        )
+      end)
     end)
   end,
 })
