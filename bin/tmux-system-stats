@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Print CPU%, memory%, and network up/down rates for the tmux statusline.
-# tmux re-runs this every status-interval seconds (currently 2s).
+# tmux re-runs this every status-interval seconds (currently 10s).
 #
 # Memory shown is (active + wired + compressed) / total physical RAM —
 # what Activity Monitor calls "Memory Used", excluding reclaimable file cache.
