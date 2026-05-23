@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Print CPU%, memory%, and network up/down rates for the tmux statusline.
+# tmux re-runs this every status-interval seconds (currently 2s).
+#
+# Memory shown is (active + wired + compressed) / total physical RAM —
+# what Activity Monitor calls "Memory Used", excluding reclaimable file cache.
+# Plain "used" from `top` is misleading on macOS because it includes cache.
+#
+# Network is byte-rate across all non-loopback interfaces, computed by diffing
+# the current sample against a snapshot in $STATE.
+
+set -euo pipefail
+
+STATE="${TMPDIR:-/tmp}/tmux-system-stats.${USER:-x}.state"
+
+cpu=$(top -l 1 -n 0 | awk '/CPU usage/ {gsub("%","",$7); printf "%.0f", 100 - $7}')
+
+total=$(sysctl -n hw.memsize)
+mem_pct=$(vm_stat | awk -v total="$total" '
+  /page size of/                  { for (i=1;i<=NF;i++) if ($i+0>0 && $(i-1)=="of") ps=$i }
+  /Pages active:/                 { active=$3 }
+  /Pages wired down:/             { wired=$4 }
+  /Pages occupied by compressor:/ { comp=$5 }
+  END {
+    gsub(/\./, "", active); gsub(/\./, "", wired); gsub(/\./, "", comp)
+    used = (active + wired + comp) * ps
+    printf "%.0f", (used / total) * 100
+  }
+')
+
+read -r net_in net_out < <(netstat -ibn | awk '
+  $1 ~ /^[a-z]/ && $1 != "lo0" && !seen[$1]++ { ib += $7; ob += $10 }
+  END { print ib+0, ob+0 }
+')
+now=$(date +%s)
+
+rate_in=0
+rate_out=0
+if [[ -r "$STATE" ]]; then
+  read -r prev_time prev_in prev_out < "$STATE"
+  dt=$((now - prev_time))
+  if (( dt > 0 )); then
+    rate_in=$(( (net_in  - prev_in)  / dt ))
+    rate_out=$(( (net_out - prev_out) / dt ))
+    (( rate_in  < 0 )) && rate_in=0
+    (( rate_out < 0 )) && rate_out=0
+  fi
+fi
+printf '%s %s %s\n' "$now" "$net_in" "$net_out" > "$STATE"
+
+# Pad to a fixed width so values don't shift the rest of the status line as
+# traffic rises and falls. Width 6 covers everything up to "1024.0M" minus the
+# vanishingly brief instant at the M→G boundary.
+human() {
+  awk -v b="$1" 'BEGIN {
+    if      (b < 1024)       s = sprintf("%dB",   b)
+    else if (b < 1048576)    s = sprintf("%dK",   b/1024)
+    else if (b < 1073741824) s = sprintf("%.1fM", b/1048576)
+    else                     s = sprintf("%.1fG", b/1073741824)
+    printf "%6s", s
+  }'
+}
+
+printf 'CPU %3s%%  MEM %3s%%  ↓%s/s ↑%s/s' \
+  "$cpu" "$mem_pct" "$(human "$rate_in")" "$(human "$rate_out")"
