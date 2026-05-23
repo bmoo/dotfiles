@@ -3,7 +3,13 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
-		dashboard = { enabled = true },
+		dashboard = {
+			enabled = true,
+			sections = {
+				{ section = "header" },
+				{ section = "keys", gap = 1, padding = 1 },
+			},
+		},
 		notifier = { enabled = true },
 		picker = { enabled = true },
 	},
