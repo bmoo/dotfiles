@@ -38,9 +38,4 @@ return {
 		end,
 		keys = require("keymaps.ai").lazy_keys,
 	},
-	{
-		"folke/snacks.nvim",
-		lazy = true,
-		opts = {},
-	},
 }

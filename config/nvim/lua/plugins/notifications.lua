@@ -1,7 +1,7 @@
 return {
     "folke/noice.nvim",
     event = "VeryLazy", -- Load after startup
-    dependencies = {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"},
+    dependencies = {"MunifTanjim/nui.nvim", "folke/snacks.nvim"},
     opts = {
         messages = {
             enabled = true,

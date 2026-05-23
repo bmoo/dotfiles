@@ -28,7 +28,7 @@ return {{
           globalstatus = true, -- requires Neovim 0.8+ (laststatus=3)
           component_separators = { "│", "│" },
           section_separators = { "", "" },
-          disabled_filetypes = { statusline = { "alpha" } },
+          disabled_filetypes = { statusline = { "snacks_dashboard" } },
         },
         sections = sections,
       }

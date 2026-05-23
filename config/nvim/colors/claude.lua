@@ -379,23 +379,22 @@ local groups = {
     NavicText      = { fg = p.fg_dim },
     NavicSeparator = { fg = p.fg_subtle },
 
-    -- nvim-notify
-    NotifyBackground  = { bg = p.surface_hi },
-    NotifyERRORBorder = { fg = p.red },
-    NotifyWARNBorder  = { fg = p.amber },
-    NotifyINFOBorder  = { fg = p.peri },
-    NotifyDEBUGBorder = { fg = p.fg_dim },
-    NotifyTRACEBorder = { fg = p.purple },
-    NotifyERRORIcon   = { fg = p.red },
-    NotifyWARNIcon    = { fg = p.amber },
-    NotifyINFOIcon    = { fg = p.peri },
-    NotifyDEBUGIcon   = { fg = p.fg_dim },
-    NotifyTRACEIcon   = { fg = p.purple },
-    NotifyERRORTitle  = { fg = p.red },
-    NotifyWARNTitle   = { fg = p.amber },
-    NotifyINFOTitle   = { fg = p.peri },
-    NotifyDEBUGTitle  = { fg = p.fg_dim },
-    NotifyTRACETitle  = { fg = p.purple },
+    -- snacks.notifier
+    SnacksNotifierBorderError = { fg = p.red },
+    SnacksNotifierBorderWarn  = { fg = p.amber },
+    SnacksNotifierBorderInfo  = { fg = p.peri },
+    SnacksNotifierBorderDebug = { fg = p.fg_dim },
+    SnacksNotifierBorderTrace = { fg = p.purple },
+    SnacksNotifierIconError   = { fg = p.red },
+    SnacksNotifierIconWarn    = { fg = p.amber },
+    SnacksNotifierIconInfo    = { fg = p.peri },
+    SnacksNotifierIconDebug   = { fg = p.fg_dim },
+    SnacksNotifierIconTrace   = { fg = p.purple },
+    SnacksNotifierTitleError  = { fg = p.red },
+    SnacksNotifierTitleWarn   = { fg = p.amber },
+    SnacksNotifierTitleInfo   = { fg = p.peri },
+    SnacksNotifierTitleDebug  = { fg = p.fg_dim },
+    SnacksNotifierTitleTrace  = { fg = p.purple },
 
     -- noice
     NoiceCmdlinePopup       = { fg = p.fg, bg = p.surface_hi },
@@ -403,11 +402,12 @@ local groups = {
     NoiceCmdlineIcon        = { fg = p.coral },
     NoiceConfirmBorder      = { fg = p.peri },
 
-    -- alpha (start screen)
-    AlphaHeader   = { fg = p.coral },
-    AlphaButtons  = { fg = p.peri },
-    AlphaShortcut = { fg = p.amber },
-    AlphaFooter   = { fg = p.fg_dim },
+    -- snacks.dashboard
+    SnacksDashboardHeader = { fg = p.coral },
+    SnacksDashboardKey    = { fg = p.amber },
+    SnacksDashboardDesc   = { fg = p.peri },
+    SnacksDashboardFile   = { fg = p.fg },
+    SnacksDashboardFooter = { fg = p.fg_dim },
 }
 
 for name, spec in pairs(groups) do
