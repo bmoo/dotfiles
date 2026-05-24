@@ -37,4 +37,14 @@ return {{
             git_status = { symbols = { unstaged = "", staged = "" } },
         },
     },
+    config = function(_, opts)
+        require("neo-tree").setup(opts)
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "neo-tree",
+            group = vim.api.nvim_create_augroup("NeoTreeFixedWidth", { clear = true }),
+            callback = function(args)
+                vim.wo[vim.fn.bufwinid(args.buf)].winfixwidth = true
+            end,
+        })
+    end,
 }}
