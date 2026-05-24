@@ -73,6 +73,11 @@ return {
                 callback = function(args)
                     if vim.api.nvim_buf_get_name(args.buf):lower():match("claude") then
                         vim.wo[vim.fn.bufwinid(args.buf)].winfixwidth = true
+                        vim.keymap.set("t", "<C-q>", function() quit_all() end, {
+                            buffer = args.buf,
+                            silent = true,
+                            desc = "Quit Claude + nvim",
+                        })
                     end
                 end,
             })

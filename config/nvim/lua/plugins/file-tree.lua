@@ -27,6 +27,7 @@ return {{
             position = "right",
             width = 30,
             mappings = {
+                ["<space>"] = "none",
                 ["u"] = "navigate_up",
                 ["v"] = "open_vsplit",
                 ["s"] = "open_split",
