@@ -1,0 +1,3 @@
+# Re-fire FileType on Claude buffer at startup
+
+snacks.nvim creates the Claude terminal with `filetype = "snacks_terminal"` *before* opening its window, so barbar.nvim's `sidebar_filetypes` listener caches the wrong window id in a closure and never carves out the bufferline-exclusion offset above the Claude pane. The VimEnter startup callback in `init.lua` re-fires `FileType` and `BufWinEnter` on the Claude buffer once its window is up, which makes barbar re-register against the real id and apply the offset. Considered: calling barbar's internal `set_offset` directly (tighter coupling to barbar internals); switching to claudecode's `native` terminal provider (loses snacks features). The re-fire is the smallest change that keeps both plugins' contracts intact.

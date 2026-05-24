@@ -24,6 +24,7 @@ return {{
             },
         },
         window = {
+            position = "right",
             width = 30,
             mappings = {
                 ["u"] = "navigate_up",

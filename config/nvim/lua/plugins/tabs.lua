@@ -24,7 +24,8 @@ return {{
                 },
             },
             sidebar_filetypes = {
-                ["neo-tree"] = { event = "BufWinLeave", align = "left" },
+                ["neo-tree"]        = { event = "BufWinLeave", align = "right" },
+                ["snacks_terminal"] = { event = "BufWinLeave", align = "left" },
             },
         })
 

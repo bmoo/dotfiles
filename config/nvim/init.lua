@@ -103,6 +103,18 @@ vim.api.nvim_create_autocmd("VimEnter", {
           vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
           "n", false
         )
+        -- snacks sets ft=snacks_terminal before opening the window, so barbar's
+        -- sidebar_filetypes listener captures bufwinid=-1 in a closure and never
+        -- applies the bufferline-exclusion offset. Re-fire FileType so barbar
+        -- re-registers its nested listener, then BufWinEnter to trigger it.
+        for _, b in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.bo[b].filetype == "snacks_terminal"
+              and vim.api.nvim_buf_get_name(b):lower():match("claude") then
+            vim.api.nvim_exec_autocmds("FileType", { buffer = b, modeline = false })
+            vim.api.nvim_exec_autocmds("BufWinEnter", { buffer = b, modeline = false })
+            break
+          end
+        end
       end)
     end)
   end,
