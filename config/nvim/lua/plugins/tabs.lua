@@ -1,3 +1,7 @@
+require("keymap").register({
+    { "<leader>bd", "<cmd>BufferClose<cr>", desc = "Close Buffer" },
+})
+
 return {{
     "romgrk/barbar.nvim",
     version = "^1.0.0",
