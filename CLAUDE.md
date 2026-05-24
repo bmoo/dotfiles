@@ -132,7 +132,7 @@ Configuration is split by concern (aliases, environment variables, tool-specific
 1. Edit the appropriate file in `config/nvim/lua/plugins/` or `config/nvim/lsp/`
 2. If adding a new LSP, follow the pattern established in `sharedlsp.lua` and create a file in `lsp/`
 3. Test by launching Neovim and verifying the configuration loads
-4. Record non-obvious decisions in `config/nvim/docs/adr/` (see existing ADRs for format)
+4. Record non-obvious decisions as ADRs in `docs/adr/` at the repo root (see existing ADRs for format)
 
 #### Verifying nvim changes via headless probe
 
