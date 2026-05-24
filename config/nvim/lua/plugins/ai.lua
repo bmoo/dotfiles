@@ -1,11 +1,5 @@
--- Launch claude with the current background as an explicit --settings override.
--- Otherwise claude probes the terminal with OSC 11 ("what's your background?"),
--- and nvim's :terminal doesn't fully consume the response — the query body
--- `11;?` leaks into claude's input prompt.
 local function claude_cmd(extra_args)
-    local theme = vim.o.background == "light" and "light" or "dark"
-    local settings = "--settings '{\"theme\":\"" .. theme .. "\"}'"
-    vim.cmd("ClaudeCode " .. (extra_args and (extra_args .. " ") or "") .. settings)
+    vim.cmd("ClaudeCode " .. (extra_args or ""))
 end
 
 local function quit_all()
