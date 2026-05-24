@@ -75,7 +75,7 @@ require("keymap").group({
 })
 require("keymap").finalize()
 
--- Open file tree (left) and Claude (right) on startup
+-- Open Claude (left) and file tree (right) on startup; land focus in Claude
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     local argc = vim.fn.argc()
@@ -85,27 +85,28 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
     vim.schedule(function()
       require("lazy").load({ plugins = { "neo-tree.nvim", "claudecode.nvim" } })
-      vim.cmd("Neotree show")
+      -- ClaudeCode first: it focuses its own terminal window. Neotree show
+      -- then saves that focused window and restores it after opening the
+      -- tree, leaving us on Claude. Reversing the order makes neo-tree's
+      -- async restore-focus snap us back to [No Name].
       local theme = vim.o.background == "light" and "light" or "dark"
       vim.cmd("ClaudeCode --settings '{\"theme\":\"" .. theme .. "\"}'")
-      -- claudecode lands us in terminal-insert. Drop back to normal mode so
-      -- <C-h>/<C-l> (tmux-navigator) and other normal-mode bindings work
-      -- without a manual <C-\><C-n> first. Scheduled to run after
-      -- claudecode's own startinsert fires.
+      vim.cmd("Neotree show")
       vim.schedule(function()
-        vim.api.nvim_feedkeys(
-          vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
-          "n", false
-        )
-        -- snacks sets ft=snacks_terminal before opening the window, so barbar's
-        -- sidebar_filetypes listener captures bufwinid=-1 in a closure and never
-        -- applies the bufferline-exclusion offset. Re-fire FileType so barbar
-        -- re-registers its nested listener, then BufWinEnter to trigger it.
         for _, b in ipairs(vim.api.nvim_list_bufs()) do
           if vim.bo[b].filetype == "snacks_terminal"
               and vim.api.nvim_buf_get_name(b):lower():match("claude") then
+            -- snacks sets ft=snacks_terminal before opening the window, so barbar's
+            -- sidebar_filetypes listener captures bufwinid=-1 in a closure and never
+            -- applies the bufferline-exclusion offset. Re-fire FileType so barbar
+            -- re-registers its nested listener, then BufWinEnter to trigger it.
             vim.api.nvim_exec_autocmds("FileType", { buffer = b, modeline = false })
             vim.api.nvim_exec_autocmds("BufWinEnter", { buffer = b, modeline = false })
+            local win = vim.fn.bufwinid(b)
+            if win ~= -1 then
+              vim.api.nvim_set_current_win(win)
+              vim.cmd("startinsert")
+            end
             break
           end
         end
