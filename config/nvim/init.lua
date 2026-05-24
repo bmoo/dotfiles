@@ -45,12 +45,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
     end
   end,
 })
-vim.api.nvim_create_autocmd("FileChangedShellPost", {
-  pattern = "*",
-  callback = function()
-    vim.notify("File changed on disk, buffer reloaded", vim.log.levels.INFO)
-  end,
-})
 
 -- Search
 vim.opt.ignorecase = true
