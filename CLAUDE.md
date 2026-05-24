@@ -132,6 +132,25 @@ Configuration is split by concern (aliases, environment variables, tool-specific
 1. Edit the appropriate file in `config/nvim/lua/plugins/` or `config/nvim/lsp/`
 2. If adding a new LSP, follow the pattern established in `sharedlsp.lua` and create a file in `lsp/`
 3. Test by launching Neovim and verifying the configuration loads
+4. Record non-obvious decisions in `config/nvim/docs/adr/` (see existing ADRs for format)
+
+#### Verifying nvim changes via headless probe
+
+For plugin-state assertions ("did barbar set the offset?", "what's the filetype of the Claude buffer?"), drive nvim headlessly and dump state to stderr:
+
+```bash
+nvim --headless /path/to/some/dir -c 'lua vim.defer_fn(function()
+  local state = require("barbar.state")
+  io.stderr:write("offset.left.width=" .. state.offset.left.width .. "\n")
+  vim.cmd("qa!")
+end, 3000)' 2>&1 | grep -v "^Ptmux"
+```
+
+- Open with a **directory argument** to trigger the VimEnter auto-open of neo-tree + claudecode.
+- Use `vim.defer_fn(..., 3000)` to wait for the lazy-loaded plugins and scheduled startup chain to settle (~2-3s is usually enough).
+- Write diagnostics to `io.stderr` and pipe through `2>&1` — the headless `:terminal` chatter goes to stdout otherwise.
+- **Caveat**: `qa!` triggers `BufWinLeave`, which can fire cleanup handlers (e.g., barbar's `sidebar_filetypes` close hook resets `state.offset` to defaults). If a clean dump shows defaults but a traced run shows real values, you're observing post-cleanup state. Poll for the expected condition from inside Lua and `qa!` once it's met instead.
+- For deeper investigation, monkey-patch a target function (`local orig = mod.fn; mod.fn = function(...) io.stderr:write(...); return orig(...) end`) to log every call.
 
 ### Adding Git Aliases
 1. Edit `gitconfig`
