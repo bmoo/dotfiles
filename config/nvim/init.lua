@@ -89,8 +89,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
       -- then saves that focused window and restores it after opening the
       -- tree, leaving us on Claude. Reversing the order makes neo-tree's
       -- async restore-focus snap us back to [No Name].
-      local theme = vim.o.background == "light" and "light" or "dark"
-      vim.cmd("ClaudeCode --settings '{\"theme\":\"" .. theme .. "\"}'")
+      vim.cmd("ClaudeCode")
       vim.cmd("Neotree show")
       vim.schedule(function()
         for _, b in ipairs(vim.api.nvim_list_bufs()) do
