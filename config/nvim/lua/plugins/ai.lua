@@ -41,6 +41,8 @@ local function quit_all()
     end))
 end
 
+vim.keymap.set("n", "<C-q>", quit_all, { silent = true, desc = "Quit Claude + nvim" })
+
 require("keymap").register({
     { "<leader>ac", function() claude_cmd() end,            desc = "Toggle Claude",      group = "ai", lazy = true, plugin = "claudecode" },
     { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",             desc = "Focus Claude",       group = "ai", lazy = true, plugin = "claudecode" },
@@ -52,7 +54,6 @@ require("keymap").register({
     { "<leader>as", "<cmd>ClaudeCodeTreeAdd<cr>",           desc = "Add file",           group = "ai", lazy = true, plugin = "claudecode", ft = { "neo-tree", "oil", "minifiles", "netrw" } },
     { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>",        desc = "Accept diff",        group = "ai", lazy = true, plugin = "claudecode" },
     { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",          desc = "Deny diff",          group = "ai", lazy = true, plugin = "claudecode" },
-    { "<leader>aq", quit_all,                               desc = "Quit Claude + nvim", group = "ai", lazy = true, plugin = "claudecode" },
 })
 
 return {
@@ -73,7 +74,7 @@ return {
                 callback = function(args)
                     if vim.api.nvim_buf_get_name(args.buf):lower():match("claude") then
                         vim.wo[vim.fn.bufwinid(args.buf)].winfixwidth = true
-                        vim.keymap.set("t", "<C-q>", function() quit_all() end, {
+                        vim.keymap.set("t", "<C-q>", quit_all, {
                             buffer = args.buf,
                             silent = true,
                             desc = "Quit Claude + nvim",
