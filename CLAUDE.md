@@ -33,11 +33,16 @@ Modular Lua-based configuration:
 
 **Key Pattern**: Plugin configurations are separated into feature files (appearance.lua, completion.lua, keymaps.lua, etc.) and language-specific files in `lsp/`. LSP configurations follow a shared pattern defined in `sharedlsp.lua`.
 
-### `zsh.after/` - Shell Configuration
-Modular Zsh setup:
-- `alias.zsh` - Command aliases (Docker, Kubernetes, Go, utilities)
-- `editor.zsh`, `prompt.zsh`, `path.zsh` - Environment setup
-- Tool-specific configs: `go.zsh`, `nvm.zsh`, `pyenv.zsh`, `gcloud.zsh`, `kubectl.zsh`, `aws-vault.zsh`
+### `zshenv`, `zshrc`, `zsh.after/` - Shell Configuration
+- `zshenv` → `~/.zshenv`: every zsh, including non-interactive ones (MCP servers, `ssh host cmd`). Puts Homebrew on PATH (Apple silicon or Intel), then sources `~/.zshenv.local`.
+- `zshrc` → `~/.zshrc`: interactive shells. Runs `brew shellenv` and `compinit`, sources every `zsh.after/*.zsh`, then `~/.zshrc.local`, then starship.
+- `zsh.after/` modules, one concern each: `alias.zsh`, `editor.zsh`, `path.zsh`, `cdpath.zsh`, `shell.zsh`, and tool configs (`bun`, `eza`, `go`, `nvm`, `pyenv`, `gcloud`, `kubectl`, `aws-vault`).
+
+**Portability rules** (the same repo runs on a personal and a work Mac):
+- Secrets go in `~/.zshenv.local`, never in the repo. Machine-only shell tweaks go in `~/.zshrc.local`; a work email or other git overrides in `~/.gitconfig.local` (included last in `gitconfig`, so it wins).
+- `zshrc` skips the gitignored `secrets.zsh`, `tokens.zsh`, `gh.zsh`. Never load `ANTHROPIC_API_KEY` globally — it switches Claude Code to pay-per-token billing.
+- Use `$HOME`, never `/Users/<name>`. Use `$HOMEBREW_PREFIX`, never `/opt/homebrew` or `/usr/local`. Guard every tool with `command -v` or `[[ -d ]]` so a machine without it starts cleanly.
+- `~/.zshrc`, `~/.zshenv`, `~/.gitconfig` are linked with `force: true`, which deletes an existing regular file. Back those up before the first `./install` on a new machine. Use `./install --only link` to relink without running `brew bundle`.
 
 ### `dotbot/` - Bootstrapper (Git Submodule)
 The Dotbot framework handling installation. Don't modify directly—it's pinned to a specific version.

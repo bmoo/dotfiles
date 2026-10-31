@@ -113,7 +113,6 @@
 [core]
   autocrlf = false
   editor = nvim
-  excludesfile = ~/.yadr/git/gitignore
   attributesfile = ~/.gitattributes
   pager = "diff-so-fancy | less -RFX"
 [advice]
@@ -127,8 +126,6 @@
   # Remember my merges
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
   enabled = true
-[include]
-  path = .gitconfig.user
 [user]
 	name = Brad Moore
 	email = 867732+bmoo@users.noreply.github.com
@@ -141,3 +138,12 @@
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+# Per-machine overrides (e.g. a work email). Last, so it wins. Not tracked.
+[include]
+	path = ~/.gitconfig.local

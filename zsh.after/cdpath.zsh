@@ -1,2 +1,2 @@
-export CDPATH=$CDPATH:$HOME
-export CDPATH=$CDPATH:$HOME/Documents/Dungeons and Dragons/Campaigns
+cdpath=(. $HOME $HOME/dev)
+[[ -d $HOME/dnd ]] && cdpath+=($HOME/dnd)

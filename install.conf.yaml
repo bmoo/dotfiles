@@ -8,7 +8,20 @@
     ~/Brewfile: Brewfile
     ~/.zsh.after: zsh.after
     ~/bin: bin
-    ~/.gitconfig: gitconfig
+    # force: replace an existing regular file (back it up first; see CLAUDE.md)
+    ~/.gitconfig:
+      path: gitconfig
+      force: true
+    ~/.zshrc:
+      path: zshrc
+      force: true
+    ~/.zshenv:
+      path: zshenv
+      force: true
+    ~/.config/git/ignore:
+      create: true
+      path: gitignore_global
+      force: true
     ~/.config/nvim:
       create: true
       path: config/nvim
