@@ -21,6 +21,7 @@
     ~/.config/git/ignore:
       create: true
       path: gitignore_global
+      force: true
     ~/.config/nvim:
       create: true
       path: config/nvim
