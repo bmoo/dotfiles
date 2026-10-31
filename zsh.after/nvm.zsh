@@ -1,7 +1,8 @@
-setopt no_aliases
-
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
-setopt aliases
+# HOMEBREW_PREFIX comes from `brew shellenv` (Apple silicon or Intel).
+if [[ -n $HOMEBREW_PREFIX && -s $HOMEBREW_PREFIX/opt/nvm/nvm.sh ]]; then
+  setopt no_aliases
+  source $HOMEBREW_PREFIX/opt/nvm/nvm.sh
+  setopt aliases
+fi

@@ -1,1 +1,1 @@
-AWS_VAULT_BACKEND=file
+export AWS_VAULT_BACKEND=file

@@ -6,7 +6,7 @@ alias gitfilehist='gitlogfunc() { git log --format=%H -- $1 | head -n1}; gitlogf
 
 # go
 alias t='go test -short ./...'
-alias lint='/usr/local/bin/golangci-lint run --new-from-rev=origin/develop'
+alias lint='golangci-lint run --new-from-rev=origin/develop'
 alias depgraph="go mod graph | modv | dot -T png | open -f -a /System/Applications/Preview.app"
 alias outdated="go list -u -m -json all | go-mod-outdated"
 alias cover='coverfunc() { t="/tmp/go-cover.$$.tmp"; go test -coverprofile=$t ./...; go tool cover -html=$t ; unlink $t }; coverfunc'
